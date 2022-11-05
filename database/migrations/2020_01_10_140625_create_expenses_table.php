@@ -26,6 +26,7 @@ class CreateExpensesTable extends Migration
             $table->double('balance',20,2)->nullable();
 
             $table->date('date');
+            $table->date('due_date')->nullable();
             $table->date('start_repeat')->nullable();
             $table->date('end_repeat')->nullable();
 

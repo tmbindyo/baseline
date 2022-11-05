@@ -101,5 +101,12 @@ class StatusTypeTableSeeder extends Seeder
             'created_at' => now()
         ]);
 
+        DB::table('status_types')->insert([
+            'id' => 'a522f494-92ce-44e9-b1a3-f891baed8d60',
+            'name' => 'Item status type',
+            'user_id' => 1,
+            'created_at' => now()
+        ]);
+
     }
 }

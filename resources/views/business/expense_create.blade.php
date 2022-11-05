@@ -109,7 +109,7 @@
                                                     </span>
                                             @endif
                                             <div class="checkbox checkbox-info">
-                                                <input id="is_paid" name="is_paid" type="checkbox" checked class="{{ $errors->has('is_paid') ? ' is-invalid' : '' }}">
+                                                <input id="is_paid" name="is_paid" type="checkbox" class="{{ $errors->has('is_paid') ? ' is-invalid' : '' }}">
                                                 <label for="is_paid">
                                                     Paid
                                                 </label>
@@ -128,6 +128,9 @@
                                                 <th>Quantity</th>
                                                 <th>Rate</th>
                                                 <th>Amount</th>
+                                                <th>Date</th>
+                                                <th>Due Date</th>
+                                                <th>Priority</th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -144,7 +147,45 @@
                                                 <td>
                                                     <input oninput = "itemTotalChange()" onchange = "this.oninput()" name="item_details[0][amount]" type="number" class="form-control input-lg item-total" placeholder="E.g +10, -10" value = "0" min = "0">
                                                 </td>
-                                                <td><span><i onclick = 'removeSelectedRow(this)' class = 'fa fa-minus-circle btn btn-danger'></i></span></td>
+                                                <td>
+                                                    <div class="has-warning" id="data_1">
+                                                        <div class="input-group date">
+                                                            <span class="input-group-addon">
+                                                                <i class="fa fa-calendar"></i>
+                                                            </span>
+                                                            <input type="text" name="item_details[0][date]" id="item_date" class="form-control input-lg {{ $errors->has('start_date') ? ' is-invalid' : '' }}">
+                                                        </div>
+                                                        <i> date.</i>
+                                                    </div>
+                                                    {{-- <input type="text" name="item_details[0][item_date]" id="item_date" class="form-control input-lg" value="11/03/2022"> --}}
+                                                </td>
+                                                <td>
+                                                    <div class="has-warning" id="data_1">
+                                                        <div class="input-group date">
+                                                            <span class="input-group-addon">
+                                                                <i class="fa fa-calendar"></i>
+                                                            </span>
+                                                            <input type="text" name="item_details[0][due_date]" id="due_date" class="form-control input-lg {{ $errors->has('start_date') ? ' is-invalid' : '' }}">
+                                                        </div>
+                                                        <i> due date.</i>
+                                                    </div>
+                                                </td>
+
+                                                <td>
+                                                    <div class="has-warning">
+                                                        <select name="item_details[0][priority]" class="select2_priorities form-control input-lg {{ $errors->has('item_details[0][priority]') ? ' is-invalid' : '' }}" required>
+                                                            <option></option>
+                                                            @foreach($priorities as $prioritiy)
+                                                                <option value="{{$prioritiy->id}}">{{$prioritiy->name}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                        <i>prioritiy</i>
+                                                    </div>
+                                                </td>
+
+                                                <td>
+                                                    <span><i onclick = 'removeSelectedRow(this)' class = 'fa fa-minus-circle btn btn-danger'></i></span>
+                                                </td>
                                             </tr>
                                             </tbody>
                                         </table>
@@ -501,6 +542,10 @@
             document.getElementById("date").value = date_today;
             document.getElementById("start_date").value = date_today;
             document.getElementById("end_date").value = date_today;
+            document.getElementById("item_date").value = date_today;
+            document.getElementById("due_date").value = date_today;
+
+
 
             // Set time
         });
@@ -700,6 +745,23 @@
     };
     var tableValueArrayIndex = 1;
     function addTableRow () {
+
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth();
+        var yyyy = today.getFullYear();
+        var h = today.getHours();
+        var m = today.getMinutes();
+        mm ++;
+        if (dd < 10){
+            dd = '0'+dd;
+        }
+        if (mm < 10){
+            mm = '0'+mm;
+        }
+        var date_today = mm + '/' + dd + '/' + yyyy;
+
+
         var table = document.getElementById("expense_table");
         var row = table.insertRow();
         var firstCell = row.insertCell(0);
@@ -707,12 +769,26 @@
         var thirdCell = row.insertCell(2);
         var fourthCell = row.insertCell(3);
         var fifthCell = row.insertCell(4);
+        var sixthCell = row.insertCell(5);
+        var seventhCell = row.insertCell(6);
+        var eigthCell = row.insertCell(7);
+
+
+
         firstCell.innerHTML = "<input name='item_details["+tableValueArrayIndex+"][item]' type='text' class='form-control input-lg item-detail'>";
         secondCell.innerHTML = "<input oninput = 'changeItemQuantity(this)' name='item_details["+tableValueArrayIndex+"][quantity]' type='number' class='form-control input-lg item-quantity' value = '0' min = '0'>";
         thirdCell.innerHTML = "<input oninput = 'changeItemRate(this)' name='item_details["+tableValueArrayIndex+"][rate]' type='number' class='form-control input-lg item-rate' placeholder='E.g +10, -10' value = '0' min = '0'>";
         fourthCell.innerHTML = "<input name='item_details["+tableValueArrayIndex+"][amount]' type='number' class='form-control input-lg item-total' placeholder='E.g +10, -10' value = '0' min = '0'>";
-        fifthCell.innerHTML = "<span><i onclick = 'removeSelectedRow(this)' class = 'fa fa-minus-circle btn btn-danger'></i></span>";
-        fifthCell.setAttribute("style", "width: 1em;")
+
+
+        fifthCell.innerHTML = "<div class='has-warning' id='data_1'> <div class='input-group date'> <span class='input-group-addon'> <i class='fa fa-calendar'></i> </span> <input type='text' name='item_details["+tableValueArrayIndex+"][date]' value="+date_today+" id='date' class='form-control input-lg'> </div> <i> date.</i> </div>";
+        sixthCell.innerHTML = "<div class='has-warning' id='data_1'> <div class='input-group date'> <span class='input-group-addon'> <i class='fa fa-calendar'></i> </span> <input type='text' name='item_details["+tableValueArrayIndex+"][due_date]' value="+date_today+" id='due_date' class='form-control input-lg'> </div> <i> due date.</i> </div>";
+
+        seventhCell.innerHTML = "<td> <div class='has-warning'> <select name='item_details["+tableValueArrayIndex+"][priority]' id='priority' class='select2_priorities form-control input-lg' required> <option></option> @foreach($priorities as $prioritiy) <option value='{{$prioritiy->id}}'>{{$prioritiy->name}}</option> @endforeach </select> <i>prioritiy</i> </div> </td>";
+
+
+        eigthCell.innerHTML = "<span><i onclick = 'removeSelectedRow(this)' class = 'fa fa-minus-circle btn btn-danger'></i></span>";
+        eigthCell.setAttribute("style", "width: 1em;")
         tableValueArrayIndex++;
     };
     function addTableProductItemRow () {

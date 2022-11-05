@@ -50,6 +50,8 @@ class HomeController extends Controller
     {
         // check if numerous accounts
         $user = $this->getUser();
+        // return $user;
+
         foreach ($user->userAccounts as $userAccount){
             if($userAccount->is_active == 1){
                 if ($userAccount->userType->name == "Admin"){

@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
         $this->call([PermissionTableSeeder::class]);
         $this->call([PlanTableSeeder::class]);
         $this->call([PlanTypeTableSeeder::class]);
+        // $this->call([PriotityTableSeeder::class]);
         $this->call([ReasonTableSeeder::class]);
         $this->call([ServiceTableSeeder::class]);
         $this->call([ServiceTypePricingTableSeeder::class]);

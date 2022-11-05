@@ -430,5 +430,47 @@ class StatusTableSeeder extends Seeder
 
 
 
+
+        // iteem statuses
+        DB::table('statuses')->insert([
+            'id' => '7feeea3a-d716-4be2-93e1-88c5082457c6',
+            'name' => 'Pending',
+            'description' => 'Pending',
+            'label' => 'label-primary',
+            'status_type_id' => 'a522f494-92ce-44e9-b1a3-f891baed8d60',
+            'user_id' => 1,
+        ]);
+
+        DB::table('statuses')->insert([
+            'id' => '0044ee5b-d3f8-4feb-a108-92e65b48e449',
+            'name' => 'Paid',
+            'description' => 'Paid',
+            'label' => 'label-success',
+            'status_type_id' => 'a522f494-92ce-44e9-b1a3-f891baed8d60',
+            'user_id' => 1,
+        ]);
+
+        DB::table('statuses')->insert([
+            'id' => '3091eee3-e1ca-4698-a46d-2faa4719bb59',
+            'name' => 'Edit',
+            'description' => 'Edit',
+            'label' => 'label-warning',
+            'status_type_id' => 'a522f494-92ce-44e9-b1a3-f891baed8d60',
+            'user_id' => 1,
+        ]);
+
+        DB::table('statuses')->insert([
+            'id' => '58d1a430-a171-4e72-a0d0-9bd8520f8ac3',
+            'name' => 'Declined',
+            'description' => 'Declined',
+            'label' => 'label-danger',
+            'status_type_id' => 'a522f494-92ce-44e9-b1a3-f891baed8d60',
+            'user_id' => 1,
+        ]);
+
+
+
+
+
     }
 }

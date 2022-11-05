@@ -18,6 +18,7 @@ use App\LoanType;
 use App\Campaign;
 use App\Frequency;
 use App\Liability;
+use App\Priority;
 use App\Transaction;
 use App\ExpenseItem;
 use App\ExpenseAccount;
@@ -63,6 +64,8 @@ class ExpenseController extends Controller
         $institution = $this->getInstitution($portal);
         // expense accounts
         $expenseAccounts = ExpenseAccount::where('institution_id', $institution->id)->where('is_institution', true)->get();
+        // priorities
+        $priorities = Priority::all();
         // get sales
         $sales = Sale::where('institution_id', $institution->id)->with('status')->get();
         // expense statuses
@@ -80,11 +83,12 @@ class ExpenseController extends Controller
         // Getting Products
         $products = Product::where('institution_id', $institution->id)->where('is_product_group',false)->with('inventory.warehouse')->get();
 
-        return view('business.expense_create', compact( 'campaigns', 'sales', 'user', 'institution', 'frequencies', 'expenseAccounts', 'transfers', 'expenseStatuses', 'accounts', 'paymentSchedules', 'products'));
+        return view('business.expense_create', compact( 'campaigns', 'sales', 'user', 'institution', 'frequencies', 'expenseAccounts', 'transfers', 'expenseStatuses', 'accounts', 'paymentSchedules', 'products', 'priorities'));
     }
 
     public function expenseStore(Request $request, $portal)
     {
+
         // check account balance
         $account = Account::findOrFail($request->account);
         if ($request->grand_total > $account->balance){
@@ -303,15 +307,22 @@ class ExpenseController extends Controller
                     $expenseItem->quantity = $item['quantity'];
                     $expenseItem->rate = $item['rate'];
                     $expenseItem->amount = $item['amount'];
+
+                    $expenseItem->date = date('Y-m-d', strtotime($item['date']));
+                    $expenseItem->due_date = date('Y-m-d', strtotime($item['due_date']));
+
+                    $expenseItem->priority_id = $item['priority'];
+                    $expenseItem->status_id = "7feeea3a-d716-4be2-93e1-88c5082457c6";
+
                     $expenseItem->user_id = $user->id;
                     $expenseItem->expense_id = $expense->id;
-                    $expenseItem->status_id = $request->status;
                     $expenseItem->is_restock = false;
                     $expenseItem->is_product = true;
                     $expenseItem->product_id = $product->id;
                     $expenseItem->is_institution = true;
                     $expenseItem->is_user = false;
                     $expenseItem->save();
+
                 }else{
                     // item details
                     $expenseItem = new ExpenseItem();
@@ -319,9 +330,15 @@ class ExpenseController extends Controller
                     $expenseItem->quantity = $item['quantity'];
                     $expenseItem->rate = $item['rate'];
                     $expenseItem->amount = $item['amount'];
+
+                    $expenseItem->date = date('Y-m-d', strtotime($item['date']));
+                    $expenseItem->due_date = date('Y-m-d', strtotime($item['due_date']));
+
+                    $expenseItem->priority_id = $item['priority'];
+                    $expenseItem->status_id = "7feeea3a-d716-4be2-93e1-88c5082457c6";
+
                     $expenseItem->user_id = $user->id;
                     $expenseItem->expense_id = $expense->id;
-                    $expenseItem->status_id = $request->status;
                     $expenseItem->is_restock = false;
                     $expenseItem->is_product = false;
                     $expenseItem->is_institution = true;
@@ -366,6 +383,8 @@ class ExpenseController extends Controller
         $institution = $this->getInstitution($portal);
         // Get expense account
         $expenseAccounts = ExpenseAccount::where('institution_id', $institution->id)->where('is_institution', true)->get();
+        // priorities
+        $priorities = Priority::all();
         // get orders
         $sales = Sale::where('institution_id', $institution->id)->with('status')->get();
         // expense statuses
@@ -383,7 +402,7 @@ class ExpenseController extends Controller
         // accounts
         $accounts = Account::where('status_id', 'c670f7a2-b6d1-4669-8ab5-9c764a1e403e')->where('institution_id', $institution->id)->where('is_institution', true)->get();
 
-        return view('business.expense_edit', compact('campaigns', 'expense', 'user', 'institution', 'expenseAccounts', 'sales', 'expenseStatuses', 'transfers', 'frequencies', 'accounts', 'paymentSchedules'));
+        return view('business.expense_edit', compact('campaigns', 'expense', 'user', 'institution', 'expenseAccounts', 'sales', 'expenseStatuses', 'transfers', 'frequencies', 'accounts', 'paymentSchedules', 'priorities'));
     }
 
     public function expenseUpdate(Request $request, $portal, $expense_id)

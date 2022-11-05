@@ -134,7 +134,7 @@ class AuthController extends Controller
         // login user
         auth()->login($user);
         // send verification email
-        $user->sendEmailVerificationNotification();
+        // $user->sendEmailVerificationNotification();
 
         return redirect()->route('home');
     }

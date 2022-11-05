@@ -126,6 +126,9 @@
                                             <th>Quantity</th>
                                             <th>Rate</th>
                                             <th>Amount</th>
+                                            <th>Date</th>
+                                            <th>Due Date</th>
+                                            <th>Priority</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -135,17 +138,54 @@
                                         @foreach($expense->expenseItems as $product)
                                             <tr>
                                                 <td>
-                                                    <input name="item_details[0][item]" type="text" class="form-control input-lg item-detail" value="{{$product->name}}">
+                                                    <input name="item_details[{{$product_index}}][item]" type="text" class="form-control input-lg item-detail" value="{{$product->name}}">
                                                 </td>
                                                 <td>
-                                                    <input oninput = "changeItemQuantity(this)" name="item_details[0][quantity]" type="number" class="form-control input-lg item-quantity" value = "{{$product->quantity}}" min = "0">
+                                                    <input oninput = "changeItemQuantity(this)" name="item_details[{{$product_index}}][quantity]" type="number" class="form-control input-lg item-quantity" value = "{{$product->quantity}}" min = "0">
                                                 </td>
                                                 <td>
-                                                    <input oninput = "changeItemRate(this)" name="item_details[0][rate]" type="number" class="form-control input-lg item-rate" placeholder="E.g +10, -10" value = "{{$product->rate}}" min = "0">
+                                                    <input oninput = "changeItemRate(this)" name="item_details[{{$product_index}}][rate]" type="number" class="form-control input-lg item-rate" placeholder="E.g +10, -10" value = "{{$product->rate}}" min = "0">
                                                 </td>
                                                 <td>
-                                                    <input oninput = "itemTotalChange()" onchange = "this.oninput()" name="item_details[0][amount]" type="number" class="form-control input-lg item-total" placeholder="E.g +10, -10" value = "{{$product->amount}}" min = "0">
+                                                    <input oninput = "itemTotalChange()" onchange = "this.oninput()" name="item_details[{{$product_index}}][amount]" type="number" class="form-control input-lg item-total" placeholder="E.g +10, -10" value = "{{$product->amount}}" min = "0">
                                                 </td>
+
+                                                <td>
+                                                    <div class="has-warning" id="data_1">
+                                                        <div class="input-group date">
+                                                            <span class="input-group-addon">
+                                                                <i class="fa fa-calendar"></i>
+                                                            </span>
+                                                            <input type="text" name="item_details[{{$product_index}}][date]" id="item_date" value="{{$product->date}}" class="form-control input-lg {{ $errors->has('start_date') ? ' is-invalid' : '' }}">
+                                                        </div>
+                                                        <i> date.</i>
+                                                    </div>
+                                                    {{-- <input type="text" name="item_details[0][item_date]" id="item_date" class="form-control input-lg" value="11/03/2022"> --}}
+                                                </td>
+                                                <td>
+                                                    <div class="has-warning" id="data_1">
+                                                        <div class="input-group date">
+                                                            <span class="input-group-addon">
+                                                                <i class="fa fa-calendar"></i>
+                                                            </span>
+                                                            <input type="text" name="item_details[{{$product_index}}][due_date]" id="due_date" value="{{$product->due_date}}" class="form-control input-lg {{ $errors->has('start_date') ? ' is-invalid' : '' }}">
+                                                        </div>
+                                                        <i> due date.</i>
+                                                    </div>
+                                                </td>
+
+                                                <td>
+                                                    <div class="has-warning">
+                                                        <select name="item_details[{{$product_index}}][priority]" class="select2_priorities form-control input-lg {{ $errors->has('item_details[0][priority]') ? ' is-invalid' : '' }}" required>
+                                                            <option></option>
+                                                            @foreach($priorities as $prioritiy)
+                                                                <option @if ($prioritiy->id == $product->priority_id) selected @endif value="{{$prioritiy->id}}">{{$prioritiy->name}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                        <i>prioritiy</i>
+                                                    </div>
+                                                </td>
+
                                             </tr>
                                             @php
                                                 $product_index++
@@ -757,18 +797,45 @@
         var tableValueArrayIndex = 1;
         function addTableRow () {
             var table = document.getElementById("expense_table");
+
+            var today = new Date();
+            var dd = today.getDate();
+            var mm = today.getMonth();
+            var yyyy = today.getFullYear();
+            var h = today.getHours();
+            var m = today.getMinutes();
+            mm ++;
+            if (dd < 10){
+                dd = '0'+dd;
+            }
+            if (mm < 10){
+                mm = '0'+mm;
+            }
+            var date_today = mm + '/' + dd + '/' + yyyy;
+
             var row = table.insertRow();
             var firstCell = row.insertCell(0);
             var secondCell = row.insertCell(1);
             var thirdCell = row.insertCell(2);
             var fourthCell = row.insertCell(3);
             var fifthCell = row.insertCell(4);
+            var sixthCell = row.insertCell(5);
+            var seventhCell = row.insertCell(6);
+            var eigthCell = row.insertCell(7);
+
             firstCell.innerHTML = "<input name='item_details["+tableValueArrayIndex+"][item]' type='text' class='form-control input-lg item-detail'>";
             secondCell.innerHTML = "<input oninput = 'changeItemQuantity(this)' name='item_details["+tableValueArrayIndex+"][quantity]' type='number' class='form-control input-lg item-quantity' value = '0' min = '0'>";
             thirdCell.innerHTML = "<input oninput = 'changeItemRate(this)' name='item_details["+tableValueArrayIndex+"][rate]' type='number' class='form-control input-lg item-rate' placeholder='E.g +10, -10' value = '0' min = '0'>";
             fourthCell.innerHTML = "<input name='item_details["+tableValueArrayIndex+"][amount]' type='number' class='form-control input-lg item-total' placeholder='E.g +10, -10' value = '0' min = '0'>";
-            fifthCell.innerHTML = "<span><i onclick = 'removeSelectedRow(this)' class = 'fa fa-minus-circle btn btn-danger'></i></span>";
-            fifthCell.setAttribute("style", "width: 1em;")
+
+            fifthCell.innerHTML = "<div class='has-warning' id='data_1'> <div class='input-group date'> <span class='input-group-addon'> <i class='fa fa-calendar'></i> </span> <input type='text' name='item_details["+tableValueArrayIndex+"][date]' value="+date_today+" id='date' class='form-control input-lg'> </div> <i> date.</i> </div>";
+            sixthCell.innerHTML = "<div class='has-warning' id='data_1'> <div class='input-group date'> <span class='input-group-addon'> <i class='fa fa-calendar'></i> </span> <input type='text' name='item_details["+tableValueArrayIndex+"][due_date]' value="+date_today+" id='due_date' class='form-control input-lg'> </div> <i> due date.</i> </div>";
+
+            seventhCell.innerHTML = "<td> <div class='has-warning'> <select name='item_details["+tableValueArrayIndex+"][priority]' id='priority' class='select2_priorities form-control input-lg' required> <option></option> @foreach($priorities as $prioritiy) <option value='{{$prioritiy->id}}'>{{$prioritiy->name}}</option> @endforeach </select> <i>prioritiy</i> </div> </td>";
+
+
+            eigthCell.innerHTML = "<span><i onclick = 'removeSelectedRow(this)' class = 'fa fa-minus-circle btn btn-danger'></i></span>";
+            eigthCell.setAttribute("style", "width: 1em;")
             tableValueArrayIndex++;
         };
         function removeSelectedRow (e) {

@@ -32,6 +32,11 @@ class CreateExpenseItemsTable extends Migration
             $table->boolean('is_restock');
             $table->uuid('restock_id')->nullable();
 
+            $table->uuid('priority_id');
+
+            $table->date('date');
+            $table->date('due_date');
+
             $table->timestamps();
             $table->softDeletes();
         });

@@ -146,6 +146,10 @@
                                     <th>Quantity</th>
                                     <th>Unit Price</th>
                                     <th>Total Price</th>
+                                    <th>Date</th>
+                                    <th>Due Date</th>
+                                    <th>Priority</th>
+                                    <th>Status</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -157,6 +161,16 @@
                                         <td>{{$product->quantity}}</td>
                                         <td>{{$product->rate}}</td>
                                         <td>{{$product->amount}}</td>
+                                        {{-- <td>{{$product->priority->name}}</td> --}}
+                                        <td>{{$product->date}}</td>
+                                        <td>{{$product->due_date}}</td>
+                                        <td>
+                                            <label class="label {{$product->priority->label}}">{{$product->priority->name}}</label>
+                                        </td>
+                                        <td>
+                                            <label class="label {{$product->status->label}}">{{$product->status->name}}</label>
+                                        </td>
+
                                     </tr>
                                 @endforeach
                                 </tbody>
