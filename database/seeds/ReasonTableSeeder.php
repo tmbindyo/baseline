@@ -86,6 +86,7 @@ class ReasonTableSeeder extends Seeder
             'name' => 'Low',
             'description' => 'Low',
             'label' => 'label-primary',
+            'status_id' => 'c670f7a2-b6d1-4669-8ab5-9c764a1e403e',
             'user_id' => 1,
         ]);
 
@@ -94,6 +95,7 @@ class ReasonTableSeeder extends Seeder
             'name' => 'Medium',
             'description' => 'Medium',
             'label' => 'label-warning',
+            'status_id' => 'c670f7a2-b6d1-4669-8ab5-9c764a1e403e',
             'user_id' => 1,
         ]);
 
@@ -102,6 +104,7 @@ class ReasonTableSeeder extends Seeder
             'name' => 'High',
             'description' => 'High',
             'label' => 'label-danger',
+            'status_id' => 'c670f7a2-b6d1-4669-8ab5-9c764a1e403e',
             'user_id' => 1,
         ]);
 
