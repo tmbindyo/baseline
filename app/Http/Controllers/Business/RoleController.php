@@ -434,7 +434,7 @@ class RoleController extends Controller
         $institutionUpdate->email = $request->email;
         $institutionUpdate->phone_number = $request->phone_number;
         $institutionUpdate->user_id = $user->id;
-        $institutionUpdate->plan_id = $request->plan;
+        // $institutionUpdate->plan_id = $request->plan;
         $institutionUpdate->currency_id = $request->currency;
         $institutionUpdate->user_id = $user->id;
         if ($request->is_sale_random == "on"){

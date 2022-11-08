@@ -665,7 +665,7 @@
                                                                 <strong>{{ $errors->first('address_line_2') }}</strong>
                                                             </span>
                                                                 @endif
-                                                                <input type="text" id="address_line_2" name="address_line_2" required="required" value="{{$institution->address->address_line_2}}" class="form-control input-lg">
+                                                                <input type="text" id="address_line_2" name="address_line_2" value="{{$institution->address->address_line_2}}" class="form-control input-lg">
                                                                 <i>address line 2</i>
                                                             </div>
                                                         </div>
@@ -679,7 +679,7 @@
                                                                 <strong>{{ $errors->first('street') }}</strong>
                                                             </span>
                                                                 @endif
-                                                                <input type="text" id="street" name="street" required="required" value="{{$institution->address->street}}" class="form-control input-lg">
+                                                                <input type="text" id="street" name="street" value="{{$institution->address->street}}" class="form-control input-lg">
                                                                 <i>street</i>
                                                             </div>
                                                         </div>
