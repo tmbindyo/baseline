@@ -268,6 +268,7 @@ class RoleController extends Controller
             }else{
                 // add user account
                 $newUserAccount = new UserAccount();
+                $newUserAccount->is_agent = true;
                 $newUserAccount->is_institution = true;
                 $newUserAccount->is_active = false;
                 $newUserAccount->is_user = false;
@@ -294,6 +295,7 @@ class RoleController extends Controller
 
             // create user account
             $newUserAccount = new UserAccount();
+            $newUserAccount->is_agent = false;
             $newUserAccount->is_institution = true;
             $newUserAccount->is_active = false;
             $newUserAccount->is_user = false;
@@ -310,7 +312,7 @@ class RoleController extends Controller
         $userAccount = UserAccount::where('id',$newUserAccount->id)->with('user','institution')->first();
 
         // send user email
-        Mail::to($request->email)->send(new BusinessInviteUser($userAccount));
+        // Mail::to($request->email)->send(new BusinessInviteUser($userAccount));
 
         // get role
         $role = Role::where('id', decrypt($request->role))->where('institution_id', $institution->id)->with('permissions')->first();
