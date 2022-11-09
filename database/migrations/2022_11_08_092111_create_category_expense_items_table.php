@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateModulesTable extends Migration
+class CreateCategoryExpenseItemsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,21 +13,22 @@ class CreateModulesTable extends Migration
      */
     public function up()
     {
-        Schema::create('modules', function (Blueprint $table) {
+        Schema::create('category_expense_items', function (Blueprint $table) {
             $table->uuid('id')->primary();
 
-            $table->string('name');
-            $table->text('description');
-            $table->decimal('price',20,2);
-            $table->decimal('daily_price',20,2);
-            $table->boolean('is_business');
-            $table->boolean('is_admin');
-            $table->boolean('is_user');
-            $table->boolean('is_paid');
-            $table->boolean('is_active');
+            $table->string('name', 200)->nullable();
+            $table->double('quantity',20,2);
+            $table->double('rate',20,2);
+            $table->double('amount',20,2);
 
             $table->integer('user_id')->unsigned();
+            $table->uuid('category_expense_id');
             $table->uuid('status_id');
+
+            $table->uuid('priority_id');
+
+            $table->date('date');
+            $table->date('due_date');
 
             $table->timestamps();
             $table->softDeletes();
@@ -41,6 +42,6 @@ class CreateModulesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('modules');
+        Schema::dropIfExists('category_expense_items');
     }
 }

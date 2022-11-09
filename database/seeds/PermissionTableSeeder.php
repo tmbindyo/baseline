@@ -21,6 +21,22 @@ class PermissionTableSeeder extends Seeder
         // calendar
         $permission = Permission::create(['name' => 'view calendar','module_id' => '99f59a14-1e3b-4b54-a33d-29cbb5431182']);
 
+        // categories
+        $permission = Permission::create(['name' => 'add category','module_id' => '3624f26b-6348-4da6-952a-3e4dcf3e69a1']);
+        $permission = Permission::create(['name' => 'view category','module_id' => '3624f26b-6348-4da6-952a-3e4dcf3e69a1']);
+        $permission = Permission::create(['name' => 'view categories','module_id' => '3624f26b-6348-4da6-952a-3e4dcf3e69a1']);
+        $permission = Permission::create(['name' => 'edit category','module_id' => '3624f26b-6348-4da6-952a-3e4dcf3e69a1']);
+        $permission = Permission::create(['name' => 'delete category','module_id' => '3624f26b-6348-4da6-952a-3e4dcf3e69a1']);
+
+        $permission = Permission::create(['name' => 'add category user','module_id' => '3624f26b-6348-4da6-952a-3e4dcf3e69a1']);
+        $permission = Permission::create(['name' => 'view category users','module_id' => '3624f26b-6348-4da6-952a-3e4dcf3e69a1']);
+        $permission = Permission::create(['name' => 'edit category user','module_id' => '3624f26b-6348-4da6-952a-3e4dcf3e69a1']);
+        $permission = Permission::create(['name' => 'delete category user','module_id' => '3624f26b-6348-4da6-952a-3e4dcf3e69a1']);
+        $permission = Permission::create(['name' => 'add category expense','module_id' => '3624f26b-6348-4da6-952a-3e4dcf3e69a1']);
+        $permission = Permission::create(['name' => 'view category expenses','module_id' => '3624f26b-6348-4da6-952a-3e4dcf3e69a1']);
+        $permission = Permission::create(['name' => 'edit category expense','module_id' => '3624f26b-6348-4da6-952a-3e4dcf3e69a1']);
+        $permission = Permission::create(['name' => 'delete category expense','module_id' => '3624f26b-6348-4da6-952a-3e4dcf3e69a1']);
+
         // product groups
         $permission = Permission::create(['name' => 'add product group','module_id' => 'b018d16c-4ef2-44dc-9c5e-be8e7d896bf3']);
         $permission = Permission::create(['name' => 'view product group','module_id' => 'b018d16c-4ef2-44dc-9c5e-be8e7d896bf3']);

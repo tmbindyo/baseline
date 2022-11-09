@@ -24,6 +24,7 @@ class ModuleTableSeeder extends Seeder
             'is_user' => true,
             'is_admin' => false,
             'is_paid' => true,
+            'is_active' => true,
             'status_id' => 'c670f7a2-b6d1-4669-8ab5-9c764a1e403e',
             'user_id' => 1,
             'created_at' => now()
@@ -41,6 +42,24 @@ class ModuleTableSeeder extends Seeder
             'is_user' => true,
             'is_admin' => false,
             'is_paid' => false,
+            'is_active' => true,
+            'status_id' => 'c670f7a2-b6d1-4669-8ab5-9c764a1e403e',
+            'user_id' => 1,
+            'created_at' => now()
+        ]);
+
+
+        DB::table('modules')->insert([
+            'id' => '3624f26b-6348-4da6-952a-3e4dcf3e69a1',
+            'name' => 'Categories',
+            'description' => 'Categories module.',
+            'price' => 0.00,
+            'daily_price' => 0.00,
+            'is_business' => true,
+            'is_user' => true,
+            'is_admin' => false,
+            'is_paid' => false,
+            'is_active' => true,
             'status_id' => 'c670f7a2-b6d1-4669-8ab5-9c764a1e403e',
             'user_id' => 1,
             'created_at' => now()
@@ -57,6 +76,7 @@ class ModuleTableSeeder extends Seeder
             'is_user' => true,
             'is_admin' => false,
             'is_paid' => false,
+            'is_active' => true,
             'status_id' => 'c670f7a2-b6d1-4669-8ab5-9c764a1e403e',
             'user_id' => 1,
             'created_at' => now()
@@ -73,6 +93,7 @@ class ModuleTableSeeder extends Seeder
             'is_user' => true,
             'is_admin' => false,
             'is_paid' => false,
+            'is_active' => false,
             'status_id' => 'c670f7a2-b6d1-4669-8ab5-9c764a1e403e',
             'user_id' => 1,
             'created_at' => now()
@@ -89,6 +110,7 @@ class ModuleTableSeeder extends Seeder
             'is_user' => true,
             'is_admin' => false,
             'is_paid' => false,
+            'is_active' => false,
             'status_id' => 'c670f7a2-b6d1-4669-8ab5-9c764a1e403e',
             'user_id' => 1,
             'created_at' => now()
@@ -105,6 +127,7 @@ class ModuleTableSeeder extends Seeder
             'is_user' => true,
             'is_admin' => false,
             'is_paid' => true,
+            'is_active' => false,
             'status_id' => 'c670f7a2-b6d1-4669-8ab5-9c764a1e403e',
             'user_id' => 1,
             'created_at' => now()
@@ -121,6 +144,7 @@ class ModuleTableSeeder extends Seeder
             'is_user' => true,
             'is_admin' => false,
             'is_paid' => true,
+            'is_active' => false,
             'status_id' => 'c670f7a2-b6d1-4669-8ab5-9c764a1e403e',
             'user_id' => 1,
             'created_at' => now()
@@ -137,6 +161,7 @@ class ModuleTableSeeder extends Seeder
             'is_user' => true,
             'is_admin' => false,
             'is_paid' => true,
+            'is_active' => false,
             'status_id' => 'c670f7a2-b6d1-4669-8ab5-9c764a1e403e',
             'user_id' => 1,
             'created_at' => now()
@@ -153,6 +178,7 @@ class ModuleTableSeeder extends Seeder
             'is_user' => true,
             'is_admin' => false,
             'is_paid' => true,
+            'is_active' => false,
             'status_id' => 'c670f7a2-b6d1-4669-8ab5-9c764a1e403e',
             'user_id' => 1,
             'created_at' => now()
@@ -169,6 +195,7 @@ class ModuleTableSeeder extends Seeder
             'is_user' => true,
             'is_admin' => false,
             'is_paid' => true,
+            'is_active' => false,
             'status_id' => 'c670f7a2-b6d1-4669-8ab5-9c764a1e403e',
             'user_id' => 1,
             'created_at' => now()
@@ -185,6 +212,7 @@ class ModuleTableSeeder extends Seeder
             'is_user' => true,
             'is_admin' => false,
             'is_paid' => true,
+            'is_active' => false,
             'status_id' => 'c670f7a2-b6d1-4669-8ab5-9c764a1e403e',
             'user_id' => 1,
             'created_at' => now()

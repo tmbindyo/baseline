@@ -64,6 +64,8 @@ class CreateToDosTable extends Migration
             $table->boolean('is_campaign');
             $table->uuid('campaign_id')->nullable();
 
+            $table->boolean('is_category');
+            $table->uuid('category_id')->nullable();
             $table->boolean('is_account');
             $table->uuid('account_id')->nullable();
             $table->boolean('is_account_adjustment');

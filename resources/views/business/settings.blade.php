@@ -615,7 +615,7 @@
                                                                 <strong>{{ $errors->first('portal') }}</strong>
                                                             </span>
                                                                 @endif
-                                                                <input type="text" id="portal" name="portal" required="required" value="{{$institution->portal}}" class="form-control input-lg">
+                                                                <input type="text" id="portal" name="portal" required="required" value="{{$institution->portal}}" class="form-control input-lg" readonly>
                                                                 <i>portal</i>
                                                             </div>
                                                         </div>

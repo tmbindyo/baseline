@@ -93,6 +93,13 @@ class ToDoController extends Controller
         }else{
             $todo->is_assignee = false;
         }
+        // category
+        if($request->is_category){
+            $todo->is_category = true;
+            $todo->category_id = $request->category;
+        }else{
+            $todo->is_category = false;
+        }
         // product
         if($request->is_product){
             $todo->is_product = true;

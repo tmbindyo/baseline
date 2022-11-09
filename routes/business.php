@@ -19,6 +19,45 @@ Route::get('/{portal}/to/do/delete/{todo_id}', 'Business\ToDoController@toDoDele
 
 
 
+
+// categories
+Route::get('/{portal}/categories', 'Business\CategoryController@categories')->name('business.categories');
+Route::get('/{portal}/category/create', 'Business\CategoryController@categoryCreate')->name('business.category.create');
+Route::post('/{portal}/category/store', 'Business\CategoryController@categoryStore')->name('business.category.store');
+Route::get('/{portal}/category/show/{category_id}', 'Business\CategoryController@categoryShow')->name('business.category.show');
+Route::post('/{portal}/category/update/{category_id}', 'Business\CategoryController@categoryUpdate')->name('business.category.update');
+Route::get('/{portal}/category/delete/{category_id}', 'Business\CategoryController@categoryDelete')->name('business.category.delete');
+Route::get('/{portal}/category/restore/{category_id}', 'Business\CategoryController@categoryRestore')->name('business.category.restore');
+
+
+// category expenses
+Route::get('/{portal}/category/expense/create/{category_id}', 'Business\CategoryController@categoryExpenseCreate')->name('business.category.expense.create');
+Route::post('/{portal}/category/expense/store', 'Business\CategoryController@categoryExpenseStore')->name('business.category.expense.store');
+Route::get('/{portal}/category/expense/show/{expense_id}', 'Business\CategoryController@categoryExpenseShow')->name('business.category.expense.show');
+Route::get('/{portal}/category/expense/edit/{expense_id}', 'Business\CategoryController@categoryExpenseEdit')->name('business.category.expense.edit');
+Route::post('/{portal}/category/expense/update/{expense_id}', 'Business\CategoryController@categoryExpenseUpdate')->name('business.category.expense.update');
+Route::get('/{portal}/category/expense/delete/{expense_id}', 'Business\CategoryController@categoryExpenseDelete')->name('business.category.expense.delete');
+Route::get('/{portal}/category/expense/restore/{expense_id}', 'Business\CategoryController@categoryExpenseRestore')->name('business.category.expense.restore');
+
+
+// category user
+Route::post('/{portal}/category/user/store', 'Business\CategoryController@categoryUserStore')->name('business.category.user.store');
+Route::get('/{portal}/category/user/delete/{category_user_id}', 'Business\CategoryController@categoryUserDelete')->name('business.category.user.delete');
+Route::get('/{portal}/category/user/restore/{category_user_id}', 'Business\CategoryController@categoryUserRestore')->name('business.category.user.restore');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /// CRM
 // Campaign
 Route::get('/{portal}/campaigns', 'Business\CRMController@campaigns')->name('business.campaigns');

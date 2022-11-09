@@ -215,6 +215,46 @@
                         </div>
                         <br>
                     @endisset
+
+
+                    @isset($category)
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="has-warning">
+                                    @if ($errors->has('is_category'))
+                                        <span class="invalid-feedback" style="display: block;" role="alert">
+                                        <strong>{{ $errors->first('is_category') }}</strong>
+                                    </span>
+                                    @endif
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <input name="is_category" type="checkbox" class="js-switch_2 {{ $errors->has('is_category') ? ' is-invalid' : '' }}" checked />
+                                        <br>
+                                        <i>Check if it belongs to a Account.</i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-8">
+                                <div class="has-warning">
+                                    @if ($errors->has('category'))
+                                        <span class="invalid-feedback" style="display: block;" role="alert">
+                                        <strong>{{ $errors->first('category') }}</strong>
+                                    </span>
+                                    @endif
+                                    <select name="category" data-placeholder="Choose an category..." class="chosen-select form-control input-lg {{ $errors->has('category') ? ' is-invalid' : '' }}">
+                                        <option value="{{$category->id}}" selected>{{$category->name}}</option>
+                                    </select>
+                                    <i>What category does the to do belong to</i>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                    @endisset
+
+
+
+
+
+
                     @isset($contact)
                         <div class="row">
                             <div class="col-lg-4">

@@ -72,7 +72,7 @@ trait InstitutionCreationTrait
         $subscription->save();
 
         // get modules
-        $modules = Module::where('is_business',true)->get();
+        $modules = Module::where('is_business',true)->where('is_active',True)->get();
         foreach ($modules as $module){
             $institutionModule = new InstitutionModule();
 
