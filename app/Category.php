@@ -14,6 +14,10 @@ class Category extends Model implements Auditable
     use SoftDeletes, UuidTrait;
     public $incrementing = false;
 
+    public function institution()
+    {
+        return $this->belongsTo('App\Institution');
+    }
     public function status()
     {
         return $this->belongsTo('App\Status');
