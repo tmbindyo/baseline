@@ -150,6 +150,7 @@ class CategoryController extends Controller
 
 
         $expense->paid = 0;
+        $expense->balance = 0;
         $expense->sub_total = $request->subtotal;
         $expense->adjustment = $request->adjustment;
         $expense->total = $request->grand_total;
@@ -407,5 +408,94 @@ class CategoryController extends Controller
 
         return view('business.expenses', compact('expenses', 'user', 'institution'));
     }
+
+
+
+
+
+
+
+
+    public function categoryExpenseItemPaid($portal, $category_expens_item_id)
+    {
+        // User
+        $user = $this->getUser();
+        // Institution
+        $institution = $this->getInstitution($portal);
+        // expense item
+        $expenseItem = CategoryExpenseItem::where('id', $category_expens_item_id)->first();
+        $expenseItem->status_id = '0044ee5b-d3f8-4feb-a108-92e65b48e449';
+        $expenseItem->save();
+
+
+        $expense = CategoryExpense::where('institution_id', $institution->id)->where('is_institution', true)->where('id', $expenseItem->category_expense_id)->with('status', 'categoryExpenseItems', 'category', 'user')->withCount('categoryExpenseItems')->first();
+
+        // total of expense items markeet as paid
+        $totalExpenseItems = CategoryExpenseItem::where('category_expense_id', $expense->id)->sum('amount');
+        $paidExpenseItems = CategoryExpenseItem::where('category_expense_id', $expense->id)->where('status_id', '0044ee5b-d3f8-4feb-a108-92e65b48e449')->sum('amount');
+        $expense->paid = $paidExpenseItems;
+        $expense->balance = doubleval($totalExpenseItems) - doubleval($paidExpenseItems);
+        $expense->save();
+
+        return redirect()->route('business.category.expense.show',['portal'=>$institution->portal, 'id'=>$expenseItem->category_expense_id])->withSuccess('Expense status for expeense item '.$expenseItem->name.' has been succesfully changed to paid!');
+    }
+
+    public function categoryExpenseItemEdit($portal, $category_expens_item_id)
+    {
+        // User
+        $user = $this->getUser();
+        // Institution
+        $institution = $this->getInstitution($portal);
+        // expense item
+        $expenseItem = CategoryExpenseItem::where('id', $category_expens_item_id)->first();
+        $expenseItem->status_id = '3091eee3-e1ca-4698-a46d-2faa4719bb59';
+        $expenseItem->save();
+
+        $expense = CategoryExpense::where('institution_id', $institution->id)->where('is_institution', true)->where('id', $expenseItem->category_expense_id)->with('status', 'categoryExpenseItems', 'category', 'user')->withCount('categoryExpenseItems')->first();
+
+        // total of expense items markeet as paid
+        $totalExpenseItems = CategoryExpenseItem::where('category_expense_id', $expense->id)->sum('amount');
+        $paidExpenseItems = CategoryExpenseItem::where('category_expense_id', $expense->id)->where('status_id', '0044ee5b-d3f8-4feb-a108-92e65b48e449')->sum('amount');
+        $expense->paid = $paidExpenseItems;
+        $expense->balance = doubleval($totalExpenseItems) - doubleval($paidExpenseItems);
+        $expense->save();
+
+        return redirect()->route('business.category.expense.show',['portal'=>$institution->portal, 'id'=>$expenseItem->category_expense_id])->withSuccess('Expense status for expeense item '.$expenseItem->name.' has been succesfully changed to edit!');
+    }
+
+    public function categoryExpenseItemDeclined($portal, $category_expens_item_id)
+    {
+        // User
+        $user = $this->getUser();
+        // Institution
+        $institution = $this->getInstitution($portal);
+        // expense item
+
+        $expenseItem = CategoryExpenseItem::where('id', $category_expens_item_id)->first();
+        $expenseItem->status_id = '58d1a430-a171-4e72-a0d0-9bd8520f8ac3';
+        $expenseItem->save();
+
+        $expense = CategoryExpense::where('institution_id', $institution->id)->where('is_institution', true)->where('id', $expenseItem->category_expense_id)->with('status', 'categoryExpenseItems', 'category', 'user')->withCount('categoryExpenseItems')->first();
+
+
+        // total of expense items markeet as paid
+        $totalExpenseItems = CategoryExpenseItem::where('category_expense_id', $expense->id)->sum('amount');
+        $paidExpenseItems = CategoryExpenseItem::where('category_expense_id', $expense->id)->where('status_id', '0044ee5b-d3f8-4feb-a108-92e65b48e449')->sum('amount');
+        $expense->paid = $paidExpenseItems;
+        $expense->balance = doubleval($totalExpenseItems) - doubleval($paidExpenseItems);
+        $expense->save();
+
+
+        return redirect()->route('business.category.expense.show',['portal'=>$institution->portal, 'id'=>$expenseItem->category_expense_id])->withSuccess('Expense status for expeense item '.$expenseItem->name.' has been succesfully changed to declined!');
+    }
+
+
+
+
+
+
+
+
+
 
 }

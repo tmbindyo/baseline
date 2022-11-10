@@ -40,6 +40,12 @@ Route::get('/{portal}/category/expense/delete/{expense_id}', 'Business\CategoryC
 Route::get('/{portal}/category/expense/restore/{expense_id}', 'Business\CategoryController@categoryExpenseRestore')->name('business.category.expense.restore');
 
 
+// category expense item
+Route::get('/{portal}/category/expense/item/mark/paid/{expense_item_id}', 'Business\CategoryController@categoryExpenseItemPaid')->name('business.category.expense.paid');
+Route::get('/{portal}/category/expense/item/mark/edit/{expense_item_id}', 'Business\CategoryController@categoryExpenseItemEdit')->name('business.category.expense.edit');
+Route::get('/{portal}/category/expense/item/mark/declined/{expense_item_id}', 'Business\CategoryController@categoryExpenseItemDeclined')->name('business.category.expense.declined');
+
+
 // category user
 Route::post('/{portal}/category/user/store', 'Business\CategoryController@categoryUserStore')->name('business.category.user.store');
 Route::get('/{portal}/category/user/delete/{category_user_id}', 'Business\CategoryController@categoryUserDelete')->name('business.category.user.delete');

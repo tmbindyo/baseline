@@ -24,47 +24,9 @@
         </div>
         <div class="col-lg-8">
             <div class="title-action">
-                @can('edit expense')
-                    <a href="{{route('business.expense.edit',['portal'=>$institution->portal, 'id'=>$expense->id])}}" class="btn btn-warning btn-outline"><i class="fa fa-pencil"></i> Edit</a>
+                @can('edit category expense')
+                    <a href="{{route('business.category.expense.edit',['portal'=>$institution->portal, 'id'=>$expense->id])}}" class="btn btn-warning btn-outline"><i class="fa fa-pencil"></i> Edit</a>
                 @endcan
-                @can('add expense payment')
-                    <a href="{{route('business.transaction.create',['portal'=>$institution->portal, 'id'=>$expense->id])}}" class="btn btn-warning btn-outline"> <i class="fa fa-dollar"></i> Make Payment</a>
-                @endcan
-                @if($expense->is_inventory_adjustment == 1)
-                    @can('view inventory adjustment')
-                        <a href="{{route('business.inventory.adjustment.show',['portal'=>$institution->portal, 'id'=>$expense->inventory_adjustment_id])}}" class="btn btn-primary btn-outline"><i class="fa fa-eye"></i> Inventory Adjustment </a>
-                    @endcan
-                @endif
-                @if($expense->is_transfer_order == 1)
-                    @can('view transfer order')
-                        <a href="{{route('business.transfer.order.show',['portal'=>$institution->portal, 'id'=>$expense->transfer_order_id])}}" class="btn btn-primary btn-outline"><i class="fa fa-eye"></i> Transfer Order </a>
-                    @endcan
-                @endif
-                @if($expense->is_warehouse == 1)
-                    @can('view warehouse')
-                        <a href="{{route('business.warehouse.show',['portal'=>$institution->portal, 'id'=>$expense->warehouse_id])}}" class="btn btn-primary btn-outline"><i class="fa fa-eye"></i> Warehouse </a>
-                        @endcan
-                @endif
-                @if($expense->is_campaign == 1)
-                    @can('view campaign')
-                        <a href="{{route('business.campaign.show',['portal'=>$institution->portal, 'id'=>$expense->campaign_id])}}" class="btn btn-primary btn-outline"><i class="fa fa-eye"></i> Campaign </a>
-                    @endcan
-                @endif
-                @if($expense->is_sale == 1)
-                    @can('view sale')
-                        <a href="{{route('business.sale.show',['portal'=>$institution->portal, 'id'=>$expense->sale_id])}}" class="btn btn-primary btn-outline"><i class="fa fa-eye"></i> Sale </a>
-                    @endcan
-                @endif
-                @if($expense->is_transfer == 1)
-                    @can('view transfer')
-                        <a href="{{route('business.transfer.show',['portal'=>$institution->portal, 'id'=>$expense->transfer_id])}}" class="btn btn-primary btn-outline"><i class="fa fa-eye"></i> Transfer </a>
-                    @endcan
-                @endif
-                @if($expense->is_transaction == 1)
-                    @can('view transaction')
-                        <a href="{{route('business.transaction.show',['portal'=>$institution->portal, 'id'=>$expense->transaction_id])}}" class="btn btn-primary btn-outline"><i class="fa fa-eye"></i> Transaction </a>
-                    @endcan
-                @endif
                 @can('add to do')
                     <a data-toggle="modal" data-target="#toDoRegistration" class="btn btn-success btn-round btn-outline"> <span class="fa fa-plus"></span> To Do </a>
                 @endcan
@@ -118,6 +80,7 @@
                                     <th>Due Date</th>
                                     <th>Priority</th>
                                     <th>Status</th>
+                                    <th class="text-right" width="50em" data-sort-ignore="true">Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -137,6 +100,13 @@
                                         </td>
                                         <td>
                                             <label class="label {{$product->status->label}}">{{$product->status->name}}</label>
+                                        </td>
+                                        <td class="text-right">
+                                            <div class="btn-group">
+                                                <a href="{{ route('business.category.expense.paid', ['portal'=>$institution->portal, 'id'=>$product->id]) }}" class="btn-success btn btn-xs">Paid</a>
+                                                <a href="{{ route('business.category.expense.edit', ['portal'=>$institution->portal, 'id'=>$product->id]) }}" class="btn-warning btn btn-xs">Edit</a>
+                                                <a href="{{ route('business.category.expense.declined', ['portal'=>$institution->portal, 'id'=>$product->id]) }}" class="btn-danger btn btn-xs">Declined</a>
+                                            </div>
                                         </td>
 
                                     </tr>
@@ -162,6 +132,10 @@
                             <tr>
                                 <td><strong>Paid :</strong></td>
                                 <td>{{$expense->paid}}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Balance :</strong></td>
+                                <td>{{$expense->balance}}</td>
                             </tr>
                             </tbody>
                         </table>
