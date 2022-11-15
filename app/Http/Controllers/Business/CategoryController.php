@@ -134,7 +134,30 @@ class CategoryController extends Controller
 
 
 
+    public function categoryUpdate(Request $request, $portal, $category_id)
+    {
+//        return $request;
+        // User
+        $user = $this->getUser();
+        // Get the navbar values
+        $institution = $this->getInstitution($portal);
+        if ($request->description == '')
+        {
+            $description = $request->name;
+        }else{
+            $description = $request->description;
+        }
+        // select account type
+        $categoryExists = Category::findOrFail($category_id);
+        $category = Category::where('id', $category_id)->first();
 
+        $category->name = $request->name;
+        $category->description = $description;
+        $category->save();
+
+
+        return redirect()->route('business.category.show',['portal'=>$institution->portal, 'id'=>$category->id])->withSuccess('Category '.$category->name.' successfully created!');
+    }
 
 
 
