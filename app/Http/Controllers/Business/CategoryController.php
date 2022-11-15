@@ -510,6 +510,35 @@ class CategoryController extends Controller
 
 
 
+    public function institutionCategoryBreakdown($portal)
+    {
+        // User
+        $user = $this->getUser();
+        // Get the navbar values
+        $institution = $this->getInstitution($portal);
 
+
+        // get category
+        $category = Category::where('is_institution', true)->where('institution_id', $institution->id)->with('status', 'user', 'categoryExpenses', 'categoryUsers')->first();
+
+
+        // institution users
+        // $registeredUserIds = CategoryUser::where('institution_id', $institution->id)->with('categoryUser')->get();
+        // return $registeredUserIds;
+        $registeredUserIds = CategoryUser::where('institution_id', $institution->id)->where('category_id', $category->id)->select('user_id')->get()->toArray();
+        $institutionUsers = UserAccount::with('user')->where('is_institution', True)->where('institution_id', $institution->id)->whereNotIn('user_id', $registeredUserIds)->get();
+        // return $institutionUsers;
+
+        // Pending to dos
+        $pendingToDos = ToDo::where('institution_id', $institution->id)->where('is_institution', true)->with('user', 'status', 'category')->where('status_id', 'f3df38e3-c854-4a06-be26-43dff410a3bc')->where('category_id', $category->id)->get();
+        // In progress to dos
+        $inProgressToDos = ToDo::where('institution_id', $institution->id)->where('is_institution', true)->with('user', 'status', 'category')->where('status_id', '2a2d7a53-0abd-4624-b7a1-a123bfe6e568')->where('category_id', $category->id)->get();
+        // Completed to dos
+        $completedToDos = ToDo::where('institution_id', $institution->id)->where('is_institution', true)->with('user', 'status', 'category')->where('status_id', 'facb3c47-1e2c-46e9-9709-ca479cc6e77f')->where('category_id', $category->id)->get();
+        // Overdue to dos
+        $overdueToDos = ToDo::where('institution_id', $institution->id)->where('is_institution', true)->with('user', 'status', 'category')->where('status_id', '99372fdc-9ca0-4bca-b483-3a6c95a73782')->where('category_id', $category->id)->get();
+
+        return view('business.category_show', compact('overdueToDos', 'completedToDos', 'inProgressToDos', 'pendingToDos', 'category', 'user', 'institution', 'institutionUsers'));
+    }
 
 }
