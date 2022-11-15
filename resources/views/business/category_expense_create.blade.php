@@ -15,7 +15,7 @@
                         <a href="#">Accounting</a>
                     </li>
                     <li>
-                        <strong><a href="{{route('business.expenses',$institution->portal)}}">Expenses</a></strong>
+                        <strong><a href="{{route('business.category.expenses',$institution->portal)}}">Expenses</a></strong>
                     </li>
                     <li class="active">
                         <strong>Expense Create</strong>

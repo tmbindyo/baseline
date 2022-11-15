@@ -67,6 +67,48 @@
                         </div>
                     </div>
                     <br>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="has-warning">
+                                <input type="password" id="password" name="password" required="required" class="form-control input-lg">
+                                <i>password</i>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="has-warning">
+                                <input type="password" id="password_confirmation" name="password_confirmation" required="required" class="form-control input-lg">
+                                <span id='message'></span>
+                                <i>confirm password</i>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+{{--
+                    <br>
+                    <div class="form-group">
+                        @if ($errors->has('password'))
+                            <span class="invalid-feedback" style="display: block;" role="alert">
+                                <strong>{{ $errors->first('password') }}</strong>
+                            </span>
+                        @endif
+                        <label>Password *</label>
+                        <input id="password" name="password" type="password" value="{{ old('password') }}"  class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }} input-lg required">
+                    </div>
+                    <div class="form-group">
+                        @if ($errors->has('password_confirmation'))
+                            <span class="invalid-feedback" style="display: block;" role="alert">
+                                <strong>{{ $errors->first('password_confirmation') }}</strong>
+                            </span>
+                        @endif
+                        <label>Confirm Password *</label>
+                        <input id="password_confirmation" name="password_confirmation" value="{{ old('password_confirmation') }}"  type="password" class="form-control {{ $errors->has('password_confirmation') ? ' is-invalid' : '' }} input-lg required">
+                    </div> --}}
 
                     <hr>
 

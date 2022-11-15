@@ -132,7 +132,7 @@
                                                 <div class="btn-group">
 
                                                     @can('delete user')
-                                                        @if ($item->status_id == 'bc6170bf-299a-44f5-8362-8cdeed1f47b0')
+                                                        @if ($institutionUser->status_id == 'bc6170bf-299a-44f5-8362-8cdeed1f47b0')
                                                             <a href="{{ route('business.category.user.restore', ['portal'=>$institution->portal, 'id'=>$institutionUser->id]) }}" class="btn btn-warning btn-sm"><i class="fa fa-check"></i> Restore </a>
                                                         @else
                                                             <a href="{{ route('business.category.user.delete', ['portal'=>$institution->portal, 'id'=>$institutionUser->id]) }}" class="btn btn-danger btn-sm"><i class="fa fa-close"></i> Deactivate </a>

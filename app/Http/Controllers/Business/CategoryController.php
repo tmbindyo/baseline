@@ -48,12 +48,14 @@ class CategoryController extends Controller
         // return $user;
         // Institution
         $institution = $this->getInstitution($portal);
-        // to does
-        $categories = Category::with('user', 'status', 'institution')->where('institution_id', $institution->id)->where('user_id', $user->id)->where('is_institution', true)->get();
+        // categories
+        $categories = Category::with('user', 'status', 'institution')->whereHas('categoryUsers', function($q) use ($user){
+            $q->where('category_user_id', $user->id)->where('category_id', $q->id);
+        })->where('institution_id', $institution->id)->where('is_institution', true)->get();
+        return $categories;
 
 
-
-        $deletedCategories = Category::with('user', 'status', 'institution')->where('institution_id', $institution->id)->where('user_id', $user->id)->where('status_id', 'd35b4cee-5594-4cfd-ad85-e489c9dcdeff')->where('is_institution', true)->get();
+        $deletedCategories = Category::with('user', 'status', 'institution')->where('institution_id', $institution->id)->where('status_id', 'd35b4cee-5594-4cfd-ad85-e489c9dcdeff')->where('is_institution', true)->get();
         return view('business.categories', compact('user', 'institution', 'categories', 'deletedCategories'));
 
     }
@@ -78,6 +80,19 @@ class CategoryController extends Controller
         $category->institution_id = $institution->id;
         $category->status_id = 'c670f7a2-b6d1-4669-8ab5-9c764a1e403e';
         $category->save();
+
+
+        // give user acceess to category
+        $categoryUser = new CategoryUser();
+        $categoryUser->category_id = $category->id;
+        $categoryUser->category_user_id = $user->id;
+        $categoryUser->institution_id = $institution->id;
+        $categoryUser->is_institution = true;
+        $categoryUser->user_id = $user->id;
+        $categoryUser->status_id = 'c670f7a2-b6d1-4669-8ab5-9c764a1e403e';
+        $categoryUser->save();
+
+
         return redirect()->route('business.category.show',['portal'=>$institution->portal, 'id'=>$category->id])->withSuccess('Category '.$category->name.' successfully created!');
     }
 
@@ -91,8 +106,11 @@ class CategoryController extends Controller
         // get category
         $category = Category::where('id', $category_id)->where('is_institution', true)->where('institution_id', $institution->id)->with('status', 'user', 'categoryExpenses', 'categoryUsers')->first();
         // institution users
-        $registeredUserIds = CategoryUser::where('institution_id', $institution->id)->select('user_id')->get()->toArray();
+        // $registeredUserIds = CategoryUser::where('institution_id', $institution->id)->with('categoryUser')->get();
+        // return $registeredUserIds;
+        $registeredUserIds = CategoryUser::where('institution_id', $institution->id)->where('category_id', $category->id)->select('user_id')->get()->toArray();
         $institutionUsers = UserAccount::with('user')->where('is_institution', True)->where('institution_id', $institution->id)->whereNotIn('user_id', $registeredUserIds)->get();
+        // return $institutionUsers;
 
         // Pending to dos
         $pendingToDos = ToDo::where('institution_id', $institution->id)->where('is_institution', true)->with('user', 'status', 'category')->where('status_id', 'f3df38e3-c854-4a06-be26-43dff410a3bc')->where('category_id', $category->id)->get();
@@ -229,9 +247,9 @@ class CategoryController extends Controller
         // priorities
         $priorities = Priority::all();
         // get expense
-        $categoryExpense = CategoryExpense::where('institution_id', $institution->id)->where('is_institution', true)->where('id', $category_expense_id)->with('transfer', 'status', 'expenseItems', 'transaction', 'expenseAccount', 'frequency', 'user', 'account', 'campaign', 'contact', 'expenseAccount', 'inventoryAdjustment', 'sale', 'sale', 'warehouse')->withCount('expenseItems')->first();
+        $expense = CategoryExpense::where('institution_id', $institution->id)->where('is_institution', true)->where('id', $category_expense_id)->with('status', 'categoryExpenseItems', 'category', 'user')->withCount('categoryExpenseItems')->first();
 
-        return view('business.category_expense_edit', compact('categoryExpense', 'user', 'institution', 'priorities'));
+        return view('business.category_expense_edit', compact('expense', 'user', 'institution', 'priorities'));
     }
 
     public function categoryExpenseUpdate(Request $request, $portal, $category_expense_id)
@@ -243,12 +261,8 @@ class CategoryController extends Controller
         // Generate reference
         $size = 5;
         $reference = $this->getRandomString($size);
-        $expenseExists = Expense::findOrFail($category_expense_id);
-        $expense = Expense::where('id', $category_expense_id)->first();
-        $expense->reference = $reference;
-        $expense->expense_account_id = $request->expense_account;
-        $expense->date = date('Y-m-d', strtotime($request->date));
-        $expense->payment_schedule_id = $request->payment_schedule;
+        $expenseExists = CategoryExpense::findOrFail($category_expense_id);
+        $expense = CategoryExpense::where('id', $category_expense_id)->first();
         if ($request->is_sale == "on")
         {
             $expense->is_sale = true;

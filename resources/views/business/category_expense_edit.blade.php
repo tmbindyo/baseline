@@ -53,68 +53,21 @@
 
                                 <div class="row">
                                     <div class="col-md-6">
-                                        {{--  expense account  --}}
+                                        {{--  Customer  --}}
                                         <div class="has-warning">
-                                            @if ($errors->has('expense_account'))
+                                            @if ($errors->has('category'))
                                                 <span class="invalid-feedback" style="display: block;" role="alert">
-                                                <strong>{{ $errors->first('expense_account') }}</strong>
+                                                <strong>{{ $errors->first('category') }}</strong>
                                             </span>
                                             @endif
-                                            <select name="expense_account" class="select2_account form-control input-lg {{ $errors->has('expense_account') ? ' is-invalid' : '' }}">
-                                                @foreach($expenseAccounts as $expenseAccount)
-                                                    <option @if($expenseAccount->id == $expense->expense_account_id) selected @endif value="{{$expenseAccount->id}}">{{$expenseAccount->name}}</option>
-                                                @endforeach
+                                            <select name="category" class="select2_category form-control input-lg {{ $errors->has('category') ? ' is-invalid' : '' }}" required>
+                                                <option selected value="{{$expense->category->id}}"> {{$expense->category->name}}</option>
                                             </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="has-warning" id="data_1">
-                                            @if ($errors->has('date'))
-                                                <span class="invalid-feedback" style="display: block;" role="alert">
-                                                <strong>{{ $errors->first('date') }}</strong>
-                                            </span>
-                                            @endif
-                                            <div class="input-group date">
-                                                    <span class="input-group-addon">
-                                                        <i class="fa fa-calendar"></i>
-                                                    </span>
-                                                <input type="text" name="date" value="" id="date" class="form-control input-lg {{ $errors->has('date') ? ' is-invalid' : '' }}" required>
-                                            </div>
-                                            <i> expense date.</i>
+                                            <i>category</i>
                                         </div>
                                     </div>
                                 </div>
-                                <br>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        {{--  expense account  --}}
-                                        <div class="has-warning">
-                                            @if ($errors->has('account'))
-                                                <span class="invalid-feedback" style="display: block;" role="alert">
-                                                <strong>{{ $errors->first('account') }}</strong>
-                                            </span>
-                                            @endif
-                                            <select name="account" class="select2_account form-control input-lg {{ $errors->has('account') ? ' is-invalid' : '' }}" required>
-                                                <option></option>
-                                                @foreach($accounts as $account)
-                                                    <option @if($expense->account_id == $account->id) selected @endif value="{{$account->id}}">{{$account->name}} [{{$account->balance}}]</option>
-                                                @endforeach
-                                            </select>
-                                            <i>account</i>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        @if ($errors->has('is_paid'))
-                                            <span class="invalid-feedback" style="display: block;" role="alert">
-                                                <strong>{{ $errors->first('is_paid') }}</strong>
-                                            </span>
-                                        @endif
-                                        <div class="checkbox checkbox-info">
-                                            <input id="is_paid" name="is_paid" type="checkbox" @if($expense->is_paid == True) checked @endif checked class="{{ $errors->has('is_paid') ? ' is-invalid' : '' }}">
-                                            <label for="is_paid">Paid</label> <span><i data-toggle="tooltip" data-placement="right" title="If checked, the selected account is deducted from the selected account." class="fa fa-x text-warning fa-question-circle"></i></span>
-                                        </div>
-                                    </div>
-                                </div>
+
                                 <br>
                                 <hr>
                                 {{--table--}}
@@ -135,19 +88,19 @@
                                         @php
                                             $product_index = 0
                                         @endphp
-                                        @foreach($expense->expenseItems as $product)
+                                        @foreach($expense->categoryExpenseItems as $product)
                                             <tr>
                                                 <td>
-                                                    <input name="item_details[{{$product_index}}][item]" type="text" class="form-control input-lg item-detail" value="{{$product->name}}">
+                                                    <input name="item_details[{{$product_index}}][item]" type="text" class="form-control input-lg item-detail" value="{{$product->name}}" @if($product->status_id == '0044ee5b-d3f8-4feb-a108-92e65b48e449') readonly @endif>
                                                 </td>
                                                 <td>
-                                                    <input oninput = "changeItemQuantity(this)" name="item_details[{{$product_index}}][quantity]" type="number" class="form-control input-lg item-quantity" value = "{{$product->quantity}}" min = "0">
+                                                    <input oninput = "changeItemQuantity(this)" name="item_details[{{$product_index}}][quantity]" type="number" class="form-control input-lg item-quantity" value = "{{$product->quantity}}" min = "0"  @if($product->status_id == '0044ee5b-d3f8-4feb-a108-92e65b48e449') readonly @endif>
                                                 </td>
                                                 <td>
-                                                    <input oninput = "changeItemRate(this)" name="item_details[{{$product_index}}][rate]" type="number" class="form-control input-lg item-rate" placeholder="E.g +10, -10" value = "{{$product->rate}}" min = "0">
+                                                    <input oninput = "changeItemRate(this)" name="item_details[{{$product_index}}][rate]" type="number" class="form-control input-lg item-rate" placeholder="E.g +10, -10" value = "{{$product->rate}}" min = "0"  @if($product->status_id == '0044ee5b-d3f8-4feb-a108-92e65b48e449') readonly @endif>
                                                 </td>
                                                 <td>
-                                                    <input oninput = "itemTotalChange()" onchange = "this.oninput()" name="item_details[{{$product_index}}][amount]" type="number" class="form-control input-lg item-total" placeholder="E.g +10, -10" value = "{{$product->amount}}" min = "0">
+                                                    <input oninput = "itemTotalChange()" onchange = "this.oninput()" name="item_details[{{$product_index}}][amount]" type="number" class="form-control input-lg item-total" placeholder="E.g +10, -10" value = "{{$product->amount}}" min = "0"  @if($product->status_id == '0044ee5b-d3f8-4feb-a108-92e65b48e449') readonly @endif>
                                                 </td>
 
                                                 <td>
@@ -156,7 +109,7 @@
                                                             <span class="input-group-addon">
                                                                 <i class="fa fa-calendar"></i>
                                                             </span>
-                                                            <input type="text" name="item_details[{{$product_index}}][date]" id="item_date" value="{{$product->date}}" class="form-control input-lg {{ $errors->has('start_date') ? ' is-invalid' : '' }}">
+                                                            <input type="text" name="item_details[{{$product_index}}][date]" id="item_date" value="{{$product->date}}" class="form-control input-lg {{ $errors->has('start_date') ? ' is-invalid' : '' }}"  @if($product->status_id == '0044ee5b-d3f8-4feb-a108-92e65b48e449') readonly @endif>
                                                         </div>
                                                         <i> date.</i>
                                                     </div>
@@ -168,7 +121,7 @@
                                                             <span class="input-group-addon">
                                                                 <i class="fa fa-calendar"></i>
                                                             </span>
-                                                            <input type="text" name="item_details[{{$product_index}}][due_date]" id="due_date" value="{{$product->due_date}}" class="form-control input-lg {{ $errors->has('start_date') ? ' is-invalid' : '' }}">
+                                                            <input type="text" name="item_details[{{$product_index}}][due_date]" id="due_date" value="{{$product->due_date}}" class="form-control input-lg {{ $errors->has('start_date') ? ' is-invalid' : '' }}"  @if($product->status_id == '0044ee5b-d3f8-4feb-a108-92e65b48e449') readonly @endif>
                                                         </div>
                                                         <i> due date.</i>
                                                     </div>
@@ -176,7 +129,7 @@
 
                                                 <td>
                                                     <div class="has-warning">
-                                                        <select name="item_details[{{$product_index}}][priority]" class="select2_priorities form-control input-lg {{ $errors->has('item_details[0][priority]') ? ' is-invalid' : '' }}" required>
+                                                        <select name="item_details[{{$product_index}}][priority]" class="select2_priorities form-control input-lg {{ $errors->has('item_details[0][priority]') ? ' is-invalid' : '' }}" required  @if($product->status_id == '0044ee5b-d3f8-4feb-a108-92e65b48e449') readonly @endif>
                                                             <option></option>
                                                             @foreach($priorities as $prioritiy)
                                                                 <option @if ($prioritiy->id == $product->priority_id) selected @endif value="{{$prioritiy->id}}">{{$prioritiy->name}}</option>
@@ -217,207 +170,26 @@
                                         <i>Total</i>
                                     </div>
                                 </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-4 col-md-offset-8">
+                                        <input type = "number" name = "paid" id = "paid" class="pull-right input-lg form-control" value = "{{$expense->paid}}" readonly>
+                                        <i>Paid</i>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-4 col-md-offset-8">
+                                        <input type = "number" name = "balance" id = "balance" class="pull-right input-lg form-control" value = "{{$expense->balance}}" readonly>
+                                        <i>Balance</i>
+                                    </div>
+                                </div>
                                 <hr>
                                 {{--  Tie expense to something  --}}
                                 <br>
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="row">
-                                            @if ($errors->has('sale'))
-                                                <span class="invalid-feedback" style="display: block;" role="alert">
-                                                <strong>{{ $errors->first('sale') }}</strong>
-                                            </span>
-                                            @endif
-                                            <div class="col-md-4">
-                                                {{--  Customer  --}}
-                                                <div class="checkbox checkbox-info">
-                                                    <input id="is_sale" name="is_sale" type="checkbox" @if($expense->is_sale == 1) checked @endif class="enableSale {{ $errors->has('sale') ? ' is-invalid' : '' }}">
-                                                    <label for="is_sale">Sale </label> <span><i data-toggle="tooltip" data-placement="right" title="Check this if you want to tie the expense to a sale, then select the sale in the dropdown." class="fa fa-x text-warning fa-question-circle"></i></span>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-8">
-                                                <div class="has-warning">
-                                                    <div class="has-warning">
-                                                        <select name="sale" id="sale" class="select2_sale form-control input-lg {{ $errors->has('sale') ? ' is-invalid' : '' }}" @if($expense->is_sale == 0) disabled @endif>
-                                                            @if($expense->is_sale == 0)
-                                                                <option></option>
-                                                            @endif
-                                                            @foreach($sales as $sale)
-                                                                <option @if($sale->id == $expense->sale_id) selected @endif value="{{$sale->id}}" >{{$sale->reference}} [{{$sale->total}}] ({{$sale->created_at->format('d/m/Y')}})</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="row">
-                                            @if ($errors->has('campaign'))
-                                                <span class="invalid-feedback" style="display: block;" role="alert">
-                                                <strong>{{ $errors->first('campaign') }}</strong>
-                                            </span>
-                                            @endif
-                                            <div class="col-md-4">
-                                                {{--  Customer  --}}
-                                                <div class="checkbox checkbox-info">
-                                                    <input id="is_campaign" name="is_campaign" type="checkbox" @if($expense->is_campaign == 1) checked @endif class="enableCampaign {{ $errors->has('is_campaign') ? ' is-invalid' : '' }}">
-                                                    <label for="is_campaign">Campaign </label> <span><i data-toggle="tooltip" data-placement="right" title="Check this if you want to tie the expense to a campaign, then select the campaign in the dropdown." class="fa fa-x text-warning fa-question-circle"></i></span>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-8">
-                                                <div class="has-warning">
-                                                    <div class="has-warning">
-                                                        <select name="campaign" id="campaign" class="select2_campaign form-control input-lg" {{ $errors->has('campaign') ? ' is-invalid' : '' }} @if($expense->is_campaign == 0) disabled @endif>
-                                                            <option></option>
-                                                            @foreach($campaigns as $campaign)
-                                                                <option @if($campaign->id == $expense->campaign_id) selected @endif value="{{$campaign->id}}" >{{$campaign->name}}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <br>
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="row">
-                                            @if ($errors->has('transfer'))
-                                                <span class="invalid-feedback" style="display: block;" role="alert">
-                                                <strong>{{ $errors->first('transfer') }}</strong>
-                                            </span>
-                                            @endif
-                                            <div class="col-md-4">
-                                                {{--  Customer  --}}
-                                                <div class="checkbox checkbox-info">
-                                                    <input id="is_transfer" name="is_transfer" type="checkbox" @if($expense->is_transfer == 1) checked @endif class="enableTransfer {{ $errors->has('is_transfer') ? ' is-invalid' : '' }}">
-                                                    <label for="is_transfer">Transfer </label> <span><i data-toggle="tooltip" data-placement="right" title="Check this if you want to tie the expense to a transfer, then select the transfer in the dropdown." class="fa fa-x text-warning fa-question-circle"></i></span>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-8">
-                                                <div class="has-warning">
-                                                    <div class="has-warning">
-                                                        <select name="transfer" id="transfer" class="select2_transfer form-control input-lg {{ $errors->has('transfer') ? ' is-invalid' : '' }}" @if($expense->is_transfer == 0) disabled @endif>
-                                                            <option></option>
-                                                            @foreach($transfers as $transfer)
-                                                                <option @if($transfer->id == $expense->transfer_id) selected @endif value="{{$transfer->id}}" >{{$transfer->reference}} [{{$transfer->amount}}] ({{$transfer->date}})</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <br>
-                                <hr>
-
-
-                                {{--attachments--}}
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="row">
-                                            @if ($errors->has('recurring'))
-                                                <span class="invalid-feedback" style="display: block;" role="alert">
-                                                <strong>{{ $errors->first('recurring') }}</strong>
-                                            </span>
-                                            @endif
-                                            <div class="col-md-4">
-                                                <div class="checkbox checkbox-info">
-                                                    <input id="is_recurring" name="is_recurring" type="checkbox" @if($expense->is_recurring == 1) checked @endif class="enableRecurring {{ $errors->has('is_recurring') ? ' is-invalid' : '' }}">
-                                                    <label for="is_recurring">Recurring</label> <span><i data-toggle="tooltip" data-placement="right" title="Check this option if you want to save this as a draft for further editing." class="fa fa-x text-warning fa-question-circle"></i></span>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-8">
-                                                <div class="has-warning">
-                                                    <select name="frequency" id="frequency" class="select2_frequency form-control input-lg {{ $errors->has('frequency') ? ' is-invalid' : '' }}" @if($expense->is_recurring == 0) disabled @endif>
-                                                        @if($expense->is_frequency == 0)
-                                                            <option></option>
-                                                        @endif
-                                                        @foreach($frequencies as $frequency)
-                                                            <option @if($frequency->id == $expense->frequency_id) selected @endif value="{{$frequency->id}}" >{{$frequency->name}}</option>
-                                                        @endforeach
-                                                    </select>
-                                                    <i>frequency</i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                @if ($errors->has('start_date'))
-                                                    <span class="invalid-feedback" style="display: block;" role="alert">
-                                                    <strong>{{ $errors->first('start_date') }}</strong>
-                                                </span>
-                                                @endif
-                                                <div class="has-warning" id="data_1">
-                                                    <div class="input-group date">
-                                                            <span class="input-group-addon">
-                                                                <i class="fa fa-calendar"></i>
-                                                            </span>
-                                                        <input type="text" name="start_date" id="start_date" class="form-control input-lg {{ $errors->has('start_date') ? ' is-invalid' : '' }}" value="{{$expense->start_repeat}}" @if($expense->is_recurring == 0) disabled @endif>
-                                                    </div>
-                                                    <i> start date.</i>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                @if ($errors->has('end_date'))
-                                                    <span class="invalid-feedback" style="display: block;" role="alert">
-                                                        <strong>{{ $errors->first('end_date') }}</strong>
-                                                    </span>
-                                                @endif
-                                                <div class="has-warning" id="data_1">
-                                                    <div class="input-group date">
-                                                            <span class="input-group-addon">
-                                                                <i class="fa fa-calendar"></i>
-                                                            </span>
-                                                        <input type="text" name="end_date" id="end_date" class="form-control input-lg {{ $errors->has('end_date') ? ' is-invalid' : '' }}" value="{{$expense->end_repeat}}" @if($expense->is_recurring == 0) disabled @endif>
-                                                    </div>
-                                                    <i> end date (leave blank if no end date)</i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                                 <hr>
                                 <div class="row">
-                                    <div class="col-md-6">
-                                        {{--  Customer  --}}
-                                        <div class="has-warning">
-                                            @if ($errors->has('status'))
-                                                <span class="invalid-feedback" style="display: block;" role="alert">
-                                                    <strong>{{ $errors->first('status') }}</strong>
-                                                </span>
-                                            @endif
-                                            <select name="status" class="select2_status form-control input-lg {{ $errors->has('status') ? ' is-invalid' : '' }}" required>
-                                                <option></option>
-                                                @foreach($expenseStatuses as $status)
-                                                    <option @if($status->id == $expense->status_id) selected @endif value="{{$status->id}}" >{{$status->name}}</option>
-                                                @endforeach
-                                            </select>
-                                                <i>status</i> <span><i data-toggle="tooltip" data-placement="right" title="Billable means that the cost can be at the clients expense, non billable however is charged to the business account selected." class="fa fa-x text-warning fa-question-circle"></i></span>
-                                        </div>
-                                        <br>
-                                        <div class="has-warning">
-                                            @if ($errors->has('payment_schedule'))
-                                                <span class="invalid-feedback" style="display: block;" role="alert">
-                                                    <strong>{{ $errors->first('payment_schedule') }}</strong>
-                                                </span>
-                                            @endif
-                                            <select name="payment_schedule" class="select2_payment_schedule form-control input-lg {{ $errors->has('payment_schedule') ? ' is-invalid' : '' }}">
-                                                <option></option>
-                                                @foreach($paymentSchedules as $paymentSchedule)
-                                                    <option @if($paymentSchedule->id == $expense->payment_schedule_id) selected @endif value="{{$paymentSchedule->id}}"> {{$paymentSchedule->name}} [{{$paymentSchedule->period}}]</option>
-                                                @endforeach
-                                            </select>
-                                            <i>payment schedule</i> <span><i data-toggle="tooltip" data-placement="right" title="Select this if this estimate will have a payment schedule." class="fa fa-x text-warning fa-question-circle"></i></span>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <div class="has-warning">
                                             @if ($errors->has('notes'))
                                                 <span class="invalid-feedback" style="display: block;" role="alert">

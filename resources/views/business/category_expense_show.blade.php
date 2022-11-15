@@ -103,9 +103,9 @@
                                         </td>
                                         <td class="text-right">
                                             <div class="btn-group">
-                                                <a href="{{ route('business.category.expense.paid', ['portal'=>$institution->portal, 'id'=>$product->id]) }}" class="btn-success btn btn-xs">Paid</a>
-                                                <a href="{{ route('business.category.expense.edit', ['portal'=>$institution->portal, 'id'=>$product->id]) }}" class="btn-warning btn btn-xs">Edit</a>
-                                                <a href="{{ route('business.category.expense.declined', ['portal'=>$institution->portal, 'id'=>$product->id]) }}" class="btn-danger btn btn-xs">Declined</a>
+                                                <a href="{{ route('business.category.expense.item.paid', ['portal'=>$institution->portal, 'id'=>$product->id]) }}" class="btn-success btn btn-xs">Paid</a>
+                                                <a href="{{ route('business.category.expense.item.edit', ['portal'=>$institution->portal, 'id'=>$product->id]) }}" class="btn-warning btn btn-xs">Edit</a>
+                                                <a href="{{ route('business.category.expense.item.declined', ['portal'=>$institution->portal, 'id'=>$product->id]) }}" class="btn-danger btn btn-xs">Declined</a>
                                             </div>
                                         </td>
 

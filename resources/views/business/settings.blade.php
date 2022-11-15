@@ -1881,6 +1881,14 @@
     <script>
         $(document).ready(function(){
 
+
+            $('#password, #confirm_password').on('keyup', function () {
+            if ($('#password').val() == $('#confirm_password').val()) {
+                $('#message').html('Matching').css('color', 'green');
+            } else
+                $('#message').html('Not Matching').css('color', 'red');
+            });
+
             $('.chosen-select').chosen({width: "100%"});
 
             $(".select2_currency").select2({
@@ -1986,5 +1994,23 @@
         });
 
     </script>
+
+
+
+<script>
+    $(document).ready(function(){
+        $("#wizard").steps();
+        $("#form").validate({
+            errorPlacement: function (error, element)
+            {
+                element.before(error);
+            },
+            rules: {
+                password_confirmation: {
+                    equalTo: "#password"
+                }
+            }
+        });
+   });
 
 @endsection

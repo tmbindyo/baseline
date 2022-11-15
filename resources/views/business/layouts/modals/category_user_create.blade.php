@@ -20,12 +20,10 @@
                         </div>
                     @endif
 
-
-
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="has-warning">
-                                <select name="category" class="select2_category form-control input-lg {{ $errors->has('category') ? ' is-invalid' : '' }}">
+                                <select name="category" data-placeholder="Choose a category..." class="chosen-select"  tabindex="2">
                                     <option selected value="{{$category->id}}">{{$category->name}}</option>
                                 </select>
                                 <i>category</i>
@@ -33,18 +31,17 @@
                         </div>
                     </div>
 
-                    <br />
 
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="has-warning">
-                                <select name="user" class="select2_category_user form-control input-lg {{ $errors->has('user') ? ' is-invalid' : '' }}">
+                                <select name="user" data-placeholder="Choose a user..." class="chosen-select"  tabindex="2">
                                     <option></option>
                                     @foreach($institutionUsers as $user)
                                         <option value="{{encrypt($user->id)}}">{{str_replace($institution->portal.' ', "", $user->name)}}</option>
                                     @endforeach()
                                 </select>
-                                <i>product category</i>
+                                <i>user</i>
                             </div>
                         </div>
                     </div>
