@@ -12,10 +12,7 @@
                         <strong><a href="{{route('business.calendar',$institution->portal)}}">Home</a></strong>
                     </li>
                     <li>
-                        <a href="#">Accounting</a>
-                    </li>
-                    <li>
-                        <strong><a href="{{route('business.category.expenses',$institution->portal)}}">Expenses</a></strong>
+                        <strong><a href="{{route('business.categories',$institution->portal)}}">Categories</a></strong>
                     </li>
                     <li class="active">
                         <strong>Expense Create</strong>
