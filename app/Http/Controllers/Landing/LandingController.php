@@ -565,6 +565,8 @@ class LandingController extends Controller
         $role->givePermissionTo($permission);
         $permission = Permission::create(['name' => 'view category expenses','module_id' => '3624f26b-6348-4da6-952a-3e4dcf3e69a1']);
         $role->givePermissionTo($permission);
+        $permission = Permission::create(['name' => 'view category expense','module_id' => '3624f26b-6348-4da6-952a-3e4dcf3e69a1']);
+        $role->givePermissionTo($permission);
         $permission = Permission::create(['name' => 'edit category expense','module_id' => '3624f26b-6348-4da6-952a-3e4dcf3e69a1']);
         $role->givePermissionTo($permission);
         $permission = Permission::create(['name' => 'delete category expense','module_id' => '3624f26b-6348-4da6-952a-3e4dcf3e69a1']);

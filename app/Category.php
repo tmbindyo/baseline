@@ -36,9 +36,9 @@ class Category extends Model implements Auditable
     {
         return $this->hasMany('App\CategoryUser');
     }
-    public function categoryTotals()
+    public function categoryTotalPaid()
     {
-        return $this->hasMany('App\CategoryUser');
+        return $this->categoryExpenses->sum('paid');
     }
 
 

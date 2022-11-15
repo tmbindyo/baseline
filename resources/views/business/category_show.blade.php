@@ -267,7 +267,7 @@
                                                                 </td>
                                                                 <td class="text-right">
                                                                     <div class="btn-group">
-                                                                        @can('view expense')
+                                                                        @can('view category expenses')
                                                                             <a href="{{ route('business.expense.show', ['portal'=>$institution->portal, 'id'=>$expense->id]) }}" class="btn-success btn-outline btn btn-xs">View</a>
                                                                         @endcan
                                                                     </div>
