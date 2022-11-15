@@ -49,12 +49,13 @@ class CategoryController extends Controller
         // Institution
         $institution = $this->getInstitution($portal);
         // categories
-        $categories = Category::with('user', 'status', 'institution')->whereHas('categoryUsers', function($q) use ($user){
-            $q->where('category_user_id', $user->id)->where('category_id', $q->id);
-        })->where('institution_id', $institution->id)->where('is_institution', true)->get();
-        return $categories;
+        // $categories = Category::with('user', 'status', 'institution')->whereHas('categoryUsers', function($q) use ($user){
+        //     $q->where('category_user_id', $user->id)->where('category_id', $q->id);
+        // })->where('institution_id', $institution->id)->where('is_institution', true)->get();
+        // return $categories;
 
 
+        $categories = Category::with('user', 'status', 'institution')->where('institution_id', $institution->id)->where('is_institution', true)->get();
         $deletedCategories = Category::with('user', 'status', 'institution')->where('institution_id', $institution->id)->where('status_id', 'd35b4cee-5594-4cfd-ad85-e489c9dcdeff')->where('is_institution', true)->get();
         return view('business.categories', compact('user', 'institution', 'categories', 'deletedCategories'));
 
@@ -70,11 +71,17 @@ class CategoryController extends Controller
         $user = $this->getUser();
         // Get the navbar values
         $institution = $this->getInstitution($portal);
+        if ($request->description == '')
+        {
 
+            $description = $request->name;
+        }else{
+            $description = $request->description;
+        }
         // select account type
         $category = new Category();
         $category->name = $request->name;
-        $category->description = $request->description;
+        $category->description = $description;
         $category->is_institution = true;
         $category->user_id = $user->id;
         $category->institution_id = $institution->id;
