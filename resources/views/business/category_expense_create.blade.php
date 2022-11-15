@@ -22,7 +22,6 @@
         </div>
 
         <div class="wrapper wrapper-content animated fadeInRight ecommerce">
-
             <div class="row">
                 <div class="col-lg-12">
                     <div class="ibox">
@@ -164,20 +163,6 @@
 
                                     {{--attachments--}}
 
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="has-warning">
-                                                @if ($errors->has('notes'))
-                                                    <span class="invalid-feedback" style="display: block;" role="alert">
-                                                    <strong>{{ $errors->first('notes') }}</strong>
-                                                </span>
-                                                @endif
-                                                <textarea required name="notes" placeholder="Notes" class="form-control {{ $errors->has('notes') ? ' is-invalid' : '' }}" rows="7">{{ old('name') }}</textarea>
-                                                <i>notes</i>
-                                            </div>
-                                        </div>
-                                    </div>
-
                                     <hr>
                                     <div class="text-center">
                                         <button type="submit" class="btn btn-success btn-block btn-outline btn-lg mt-4">{{ __('Save') }}</button>
@@ -192,8 +177,6 @@
                     </div>
                 </div>
             </div>
-
-
         </div>
 
 @endsection

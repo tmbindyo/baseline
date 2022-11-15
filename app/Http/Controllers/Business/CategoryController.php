@@ -203,7 +203,7 @@ class CategoryController extends Controller
         $expense->adjustment = $request->adjustment;
         $expense->total = $request->grand_total;
 
-        $expense->notes = $request->notes;
+        $expense->notes = "";
 
         $expense->category_id = $request->category;
         $expense->user_id = $user->id;

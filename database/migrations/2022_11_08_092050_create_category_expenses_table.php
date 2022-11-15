@@ -17,7 +17,7 @@ class CreateCategoryExpensesTable extends Migration
             $table->uuid('id')->primary();
 
             $table->string('reference');
-            $table->longText('notes');
+            $table->longText('notes')->nullable();
 
             $table->double('sub_total',20,2);
             $table->double('adjustment',20,2);

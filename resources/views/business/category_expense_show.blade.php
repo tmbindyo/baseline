@@ -53,6 +53,7 @@
                                 <h4 class="text-navy">{{$expense->reference}}</h4>
                                 <p>
                                     <span><strong>Expense Date:</strong> <a href="#" class="text-navy"> {{$expense->date}} </a> </span><br/>
+                                    <span><strong>Category:</strong> <a href="#" class="text-navy"> {{$expense->category->name}} </a> </span><br/>
                                 </p>
                                 <h4>Expense Details:</h4>
 {{--                                <address>--}}
