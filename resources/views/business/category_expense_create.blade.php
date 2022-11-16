@@ -57,6 +57,45 @@
                                                 <i>category</i>
                                             </div>
                                         </div>
+
+                                        <div class="col-md-6">
+                                            {{--  expense account  --}}
+                                            <div class="has-warning">
+                                                @if ($errors->has('sub_category'))
+                                                    <span class="invalid-feedback" style="display: block;" role="alert">
+                                                        <strong>{{ $errors->first('sub_category') }}</strong>
+                                                    </span>
+                                                @endif
+                                                <select name="sub_category" class="select2_sub_category form-control input-lg {{ $errors->has('sub_category') ? ' is-invalid' : '' }}" required>
+                                                    <option></option>
+                                                    @foreach($subCategories as $subCategory)
+                                                        <option value="{{$subCategory->id}}">{{$subCategory->name}}</option>
+                                                    @endforeach
+                                                </select>
+                                                <i>sub category</i>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <br>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="has-warning" id="data_1">
+                                                @if ($errors->has('date'))
+                                                    <span class="invalid-feedback" style="display: block;" role="alert">
+                                                        <strong>{{ $errors->first('date') }}</strong>
+                                                    </span>
+                                                @endif
+                                                <div class="input-group date">
+                                                    <span class="input-group-addon">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </span>
+                                                    <input type="text" name="date" id="date" value="{{ old('date') }}" class="form-control input-lg {{ $errors->has('date') ? ' is-invalid' : '' }}" required>
+                                                </div>
+                                                <i> expense date.</i>
+                                            </div>
+                                        </div>
                                     </div>
 
 
@@ -268,7 +307,7 @@
             var date_today = mm + '/' + dd + '/' + yyyy;
             var time_curr = h + ':' + m;
             console.log(time_curr);
-            // document.getElementById("date").value = date_today;
+            document.getElementById("date").value = date_today;
             // document.getElementById("start_date").value = date_today;
             // document.getElementById("end_date").value = date_today;
             document.getElementById("item_date").value = date_today;
@@ -296,8 +335,8 @@
             placeholder: "Select Payment Schedule",
             allowClear: true
         });
-        $(".select2_expense_account").select2({
-            placeholder: "Select Expense Account",
+        $(".select2_sub_category").select2({
+            placeholder: "Select Sub Category",
             allowClear: true
         });
         $(".select2_frequency").select2({

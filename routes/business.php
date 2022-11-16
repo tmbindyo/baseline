@@ -6,6 +6,10 @@ Route::get('/{portal}/dashboard', 'Business\DashboardController@dashboard')->nam
 
 
 
+Route::get('/{portal}/breakdown', 'Business\DashboardController@breakdown')->name('business.breakdown');
+
+
+
 //Calendar
 Route::get('/{portal}/calendar', 'Business\CalendarController@calendar')->name('business.calendar');
 Route::post('/{portal}/calendar/store', 'Business\CalendarController@calendarStore')->name('business.calendar.store');
@@ -29,6 +33,8 @@ Route::post('/{portal}/category/update/{category_id}', 'Business\CategoryControl
 Route::get('/{portal}/category/delete/{category_id}', 'Business\CategoryController@categoryDelete')->name('business.category.delete');
 Route::get('/{portal}/category/restore/{category_id}', 'Business\CategoryController@categoryRestore')->name('business.category.restore');
 
+
+Route::post('/{portal}/sub/category/store/{category_id}', 'Business\CategoryController@subCategoryStore')->name('business.sub.category.store');
 
 // category expenses
 Route::get('/{portal}/category/expense/create/{category_id}', 'Business\CategoryController@categoryExpenseCreate')->name('business.category.expense.create');

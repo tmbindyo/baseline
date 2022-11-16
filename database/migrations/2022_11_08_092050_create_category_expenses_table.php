@@ -33,6 +33,7 @@ class CreateCategoryExpensesTable extends Migration
             $table->boolean('has_items')->nullable();
 
             $table->uuid('category_id');
+            $table->uuid('sub_category_id');
             $table->integer('user_id')->unsigned();
             $table->boolean('is_institution');
             $table->uuid('institution_id')->nullable();

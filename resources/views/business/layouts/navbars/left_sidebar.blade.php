@@ -51,11 +51,17 @@
                 <a href="{{ route('business.dashboard') }}"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboard</span></a>
             </li> --}}
 
-            @can('view to dos')
-                <li class="nav-item {{ Route::currentRouteNamed( 'business.to.dos',$institution->portal ) ?  'active' : '' }}">
-                    <a href="{{ route('business.to.dos',$institution->portal) }}"><i class="fa fa-list"></i> <span class="nav-label">To Do </span></a>
+            @can('view breakdown')
+                <li class="nav-item {{ Route::currentRouteNamed( 'business.breakdown',$institution->portal ) ?  'active' : '' }}">
+                    <a href="{{ route('business.breakdown',$institution->portal) }}"><i class="fa fa-list"></i> <span class="nav-label">Breakdown </span></a>
                 </li>
             @endcan
+
+            {{-- @can('view breakdown')
+                <li class="nav-item {{ Route::currentRouteNamed( 'business.calendar',$institution->portal ) ?  'active' : '' }}">
+                   <a href="{{ route('business.calendar',$institution->portal) }}"><i class="fa fa-calendar"></i> <span class="nav-label">Calendar </span></a>
+                </li>
+            @endcan --}}
 
             @can('view calendar')
                 <li class="nav-item {{ Route::currentRouteNamed( 'business.calendar',$institution->portal ) ?  'active' : '' }}">

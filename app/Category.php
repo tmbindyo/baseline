@@ -28,6 +28,10 @@ class Category extends Model implements Auditable
     }
 
     // children
+    public function subCategories()
+    {
+        return $this->hasMany('App\SubCategory');
+    }
     public function categoryExpenses()
     {
         return $this->hasMany('App\CategoryExpense');
@@ -36,11 +40,54 @@ class Category extends Model implements Auditable
     {
         return $this->hasMany('App\CategoryUser');
     }
+
+
+
+
+
+
+
+    public function categoryTotalSubTotal()
+    {
+        // return $this->categoryExpenses();
+        return $this->categoryExpenses()
+        ->selectRaw('category_id,SUM(sub_total) as sub_total')
+        ->groupBy('category_id');
+    }
+    public function categoryTotalAdjustment()
+    {
+        // return $this->categoryExpenses();
+        return $this->categoryExpenses()
+        ->selectRaw('category_id,SUM(adjustment) as adjustments')
+        ->groupBy('category_id');
+    }
+    public function categoryTotalTotal()
+    {
+        // return $this->categoryExpenses();
+        return $this->categoryExpenses()
+        ->selectRaw('category_id,SUM(total) as totals')
+        ->groupBy('category_id');
+    }
     public function categoryTotalPaid()
     {
-        return $this->categoryExpenses->sum('paid');
+        // return $this->categoryExpenses();
+        return $this->categoryExpenses()
+        ->selectRaw('category_id,SUM(paid) as paid')
+        ->groupBy('category_id');
+    }
+    public function categoryTotalBalance()
+    {
+        // return $this->categoryExpenses();
+        return $this->categoryExpenses()
+        ->selectRaw('category_id,SUM(balance) as balance')
+        ->groupBy('category_id');
     }
 
 
-
+    // public function groupTry()
+    // {
+    //     return $this->hasMany('App\SubscriptionModule')
+    //     ->selectRaw('module_id,SUM(amount)')
+    //     ->groupBy('module_id');
+    // }
 }

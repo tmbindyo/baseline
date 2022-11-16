@@ -7,8 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class CategoryExpense extends Model implements Auditable
+class SubCategory extends Model implements Auditable
 {
+    //
     use \OwenIt\Auditing\Auditable;
     use SoftDeletes, UuidTrait;
     public $incrementing = false;
@@ -22,10 +23,6 @@ class CategoryExpense extends Model implements Auditable
     {
         return $this->belongsTo('App\Institution');
     }
-    public function subCategory()
-    {
-        return $this->belongsTo('App\SubCategory');
-    }
     public function status()
     {
         return $this->belongsTo('App\Status');
@@ -36,9 +33,5 @@ class CategoryExpense extends Model implements Auditable
     }
 
 
-    // Children
-    public function categoryExpenseItems()
-    {
-        return $this->hasMany('App\CategoryExpenseItem');
-    }
+
 }

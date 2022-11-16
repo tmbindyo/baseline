@@ -17,6 +17,7 @@ use App\PaymentSchedule;
 use App\Frequency;
 use App\Account;
 use App\Product;
+use App\SubCategory;
 use App\UserAccount;
 use App\CategoryUser;
 use App\CategoryExpense;
@@ -66,7 +67,6 @@ class CategoryController extends Controller
 
     public function categoryStore(Request $request, $portal)
     {
-//        return $request;
         // User
         $user = $this->getUser();
         // Get the navbar values
@@ -111,7 +111,12 @@ class CategoryController extends Controller
         // Get the navbar values
         $institution = $this->getInstitution($portal);
         // get category
-        $category = Category::where('id', $category_id)->where('is_institution', true)->where('institution_id', $institution->id)->with('status', 'user', 'categoryExpenses', 'categoryUsers')->first();
+        $category = Category::where('id', $category_id)->where('is_institution', true)->where('institution_id', $institution->id)->with('status', 'user', 'categoryExpenses', 'categoryExpenses.subCategory', 'categoryUsers', 'subCategories')->first();
+
+        // category expeensee items
+        $categoryExpensesIds = CategoryExpense::where('category_id', $category->id)->pluck('id')->toArray();
+        $categoryExpenseItems = CategoryExpenseItem::whereIn('category_expense_id', $categoryExpensesIds)->with('categoryExpense', 'categoryExpense.category')->get();
+        // return $categoryExpenseItems;
         // institution users
         // $registeredUserIds = CategoryUser::where('institution_id', $institution->id)->with('categoryUser')->get();
         // return $registeredUserIds;
@@ -128,7 +133,7 @@ class CategoryController extends Controller
         // Overdue to dos
         $overdueToDos = ToDo::where('institution_id', $institution->id)->where('is_institution', true)->with('user', 'status', 'category')->where('status_id', '99372fdc-9ca0-4bca-b483-3a6c95a73782')->where('category_id', $category->id)->get();
 
-        return view('business.category_show', compact('overdueToDos', 'completedToDos', 'inProgressToDos', 'pendingToDos', 'category', 'user', 'institution', 'institutionUsers'));
+        return view('business.category_show', compact('overdueToDos', 'completedToDos', 'inProgressToDos', 'pendingToDos', 'category', 'user', 'institution', 'institutionUsers', 'categoryExpenseItems'));
     }
 
 
@@ -163,6 +168,28 @@ class CategoryController extends Controller
 
 
 
+    public function subCategoryStore(Request $request, $portal, $category_id)
+    {
+        // User
+        $user = $this->getUser();
+        // Get the navbar values
+        $institution = $this->getInstitution($portal);
+
+        // select account type
+        $category = new SubCategory();
+        $category->name = $request->name;
+        $category->category_id = $category_id;
+        $category->is_institution = true;
+        $category->user_id = $user->id;
+        $category->institution_id = $institution->id;
+        $category->status_id = 'c670f7a2-b6d1-4669-8ab5-9c764a1e403e';
+        $category->save();
+
+
+        return redirect()->route('business.category.show',['portal'=>$institution->portal, 'id'=>$category_id])->withSuccess('Category '.$category->name.' successfully created!');
+    }
+
+
 
 
     public function categoryExpenseCreate($portal, $category_id)
@@ -176,8 +203,9 @@ class CategoryController extends Controller
         // category
         $categoryExists = Category::findOrFail($category_id);
         $category = Category::where('id', $category_id)->first();
+        $subCategories = SubCategory::where('category_id',$category_id)->get();
 
-        return view('business.category_expense_create', compact( 'user', 'priorities', 'institution', 'category'));
+        return view('business.category_expense_create', compact( 'user', 'priorities', 'institution', 'category', 'subCategories'));
     }
 
     public function categoryExpenseStore(Request $request, $portal)
@@ -206,6 +234,7 @@ class CategoryController extends Controller
         $expense->notes = "";
 
         $expense->category_id = $request->category;
+        $expense->sub_category_id = $request->sub_category;
         $expense->user_id = $user->id;
         $expense->institution_id = $institution->id;
 
@@ -255,7 +284,7 @@ class CategoryController extends Controller
         // Institution
         $institution = $this->getInstitution($portal);
         // get expense
-        $expense = CategoryExpense::where('institution_id', $institution->id)->where('is_institution', true)->where('id', $category_expense_id)->with('status', 'categoryExpenseItems', 'category', 'user')->withCount('categoryExpenseItems')->first();
+        $expense = CategoryExpense::where('institution_id', $institution->id)->where('is_institution', true)->where('id', $category_expense_id)->with('status', 'categoryExpenseItems', 'category', 'user', 'subCategory')->withCount('categoryExpenseItems')->first();
         // Pending to dos
         $pendingToDos = ToDo::where('institution_id', $institution->id)->where('is_institution', true)->with('user', 'status', 'expense')->where('status_id', 'f3df38e3-c854-4a06-be26-43dff410a3bc')->where('expense_id', $expense->id)->get();
         // In progress to dos

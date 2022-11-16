@@ -526,6 +526,9 @@ class LandingController extends Controller
 
 
         // to dos
+        $permission = Permission::create(['name' => 'view breakdown','module_id' => '99f59a14-1e3b-4b54-a33d-29cbb5431182']);
+        $role->givePermissionTo($permission);
+
         $permission = Permission::create(['name' => 'add to do','module_id' => '99f59a14-1e3b-4b54-a33d-29cbb5431182']);
         $role->givePermissionTo($permission);
 
@@ -552,6 +555,14 @@ class LandingController extends Controller
         $permission = Permission::create(['name' => 'edit category','module_id' => '3624f26b-6348-4da6-952a-3e4dcf3e69a1']);
         $role->givePermissionTo($permission);
         $permission = Permission::create(['name' => 'delete category','module_id' => '3624f26b-6348-4da6-952a-3e4dcf3e69a1']);
+        $role->givePermissionTo($permission);
+        $permission = Permission::create(['name' => 'add sub category','module_id' => '3624f26b-6348-4da6-952a-3e4dcf3e69a1']);
+        $role->givePermissionTo($permission);
+        $permission = Permission::create(['name' => 'view sub categories','module_id' => '3624f26b-6348-4da6-952a-3e4dcf3e69a1']);
+        $role->givePermissionTo($permission);
+        $permission = Permission::create(['name' => 'edit sub category','module_id' => '3624f26b-6348-4da6-952a-3e4dcf3e69a1']);
+        $role->givePermissionTo($permission);
+        $permission = Permission::create(['name' => 'delete sub category','module_id' => '3624f26b-6348-4da6-952a-3e4dcf3e69a1']);
         $role->givePermissionTo($permission);
         $permission = Permission::create(['name' => 'add category user','module_id' => '3624f26b-6348-4da6-952a-3e4dcf3e69a1']);
         $role->givePermissionTo($permission);

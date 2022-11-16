@@ -36,6 +36,11 @@
                 @can('add category user')
                     <a data-toggle="modal" data-target="#categoryUserRegistration" class="btn btn-primary btn-round btn-outline"> <span class="fa fa-plus"></span> New User </a>
                 @endcan
+
+                @can('add sub category')
+                    <a data-toggle="modal" data-target="#subCategoryRegistration" class="btn btn-primary pull-right btn-round btn-outline"> <span class="fa fa-plus"></span>Sub Category </a>
+{{--                    <a href="{{route('business.category.create',$institution->portal)}}" class="btn btn-primary btn-outline"><i class="fa fa-plus"></i> Category </a>--}}
+                @endcan
             </div>
         </div>
     </div>
@@ -104,58 +109,121 @@
             </div>
 
             <div class="col-lg-8">
-                <div class="ibox float-e-margins">
-                    <div class="ibox-title">
-                        <h5>Categories</h5>
+
+                <div class="row m-t-sm">
+                    <div class="col-lg-12">
+                    <div class="panel white-panel">
+                    <div class="panel-heading">
+                        <div class="panel-options">
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a href="#sub-categories" data-toggle="tab">Sub Categories</a></li>
+                                <li class=""><a href="#category-users" data-toggle="tab">Category Users</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="panel-body">
+
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="sub-categories">
+                                @can('view sub categories')
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-bordered table-hover dataTables-expenses" >
+                                            <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Status</th>
+                                                <th>Created</th>
+                                                <th class="text-right" width="13em" data-sort-ignore="true">Action</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach($category->subCategories as $subCategory)
+                                                    <tr class="gradeA">
+                                                        <td>{{$subCategory->name}}</td>
+                                                        <td>{{$subCategory->created_at}}</td>
+                                                        <td>
+                                                            <p><span class="label {{$subCategory->status->label}}">{{$subCategory->status->name}}</span></p>
+                                                        </td>
+                                                        <td class="text-right">
+                                                            <div class="btn-group">
+                                                                {{-- @can('view category expenses') --}}
+                                                                    {{-- <a href="{{ route('business.category.expense.show', ['portal'=>$institution->portal, 'id'=>$expense->id]) }}" class="btn-success btn-outline btn btn-xs">View</a> --}}
+                                                                {{-- @endcan --}}
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                            <tfoot>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Status</th>
+                                                <th>Created</th>
+                                                <th class="text-right" width="13em" data-sort-ignore="true">Action</th>
+                                            </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                @endcan
+                            </div>
+
+                            <div class="tab-pane" id="category-users">
+                                @can('view category users')
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-bordered table-hover dataTables-expenses" >
+                                            <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>User</th>
+                                                <th>Status</th>
+                                                <th class="text-right" width="70em" data-sort-ignore="true">Action</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach($category->categoryUsers as $institutionUser)
+                                                    <tr class="gradeX">
+                                                        <td>{{$institutionUser->user->name}}</td>
+                                                        <td>{{$institutionUser->user->email}}</td>
+                                                        <td>{{ $institutionUser->created_at->format('d/m/Y H:i') }}</td>
+                                                        <td class="text-right">
+                                                            <div class="btn-group">
+
+                                                                @can('delete user')
+                                                                    @if ($institutionUser->status_id == 'bc6170bf-299a-44f5-8362-8cdeed1f47b0')
+                                                                        <a href="{{ route('business.category.user.restore', ['portal'=>$institution->portal, 'id'=>$institutionUser->id]) }}" class="btn btn-warning btn-sm"><i class="fa fa-check"></i> Restore </a>
+                                                                    @else
+                                                                        <a href="{{ route('business.category.user.delete', ['portal'=>$institution->portal, 'id'=>$institutionUser->id]) }}" class="btn btn-danger btn-sm"><i class="fa fa-close"></i> Deactivate </a>
+                                                                    @endif
+                                                                @endcan
+
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                            <tfoot>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>User</th>
+                                                <th>Status</th>
+                                                <th class="text-right" width="70em" data-sort-ignore="true">Action</th>
+                                            </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                @endcan
+                            </div>
+
+
+
+
 
                     </div>
-                    <div class="ibox-content">
 
-                        @can('view category users')
-                            <div class="table-responsive">
-                                <table class="table table-striped table-bordered table-hover dataTables-users" >
-                                    <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>User</th>
-                                        <th>Status</th>
-                                        <th class="text-right" width="70em" data-sort-ignore="true">Action</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach($category->categoryUsers as $institutionUser)
-                                        <tr class="gradeX">
-                                            <td>{{$institutionUser->user->name}}</td>
-                                            <td>{{$institutionUser->user->email}}</td>
-                                            <td>{{ $institutionUser->created_at->format('d/m/Y H:i') }}</td>
-                                            <td class="text-right">
-                                                <div class="btn-group">
+                    </div>
 
-                                                    @can('delete user')
-                                                        @if ($institutionUser->status_id == 'bc6170bf-299a-44f5-8362-8cdeed1f47b0')
-                                                            <a href="{{ route('business.category.user.restore', ['portal'=>$institution->portal, 'id'=>$institutionUser->id]) }}" class="btn btn-warning btn-sm"><i class="fa fa-check"></i> Restore </a>
-                                                        @else
-                                                            <a href="{{ route('business.category.user.delete', ['portal'=>$institution->portal, 'id'=>$institutionUser->id]) }}" class="btn btn-danger btn-sm"><i class="fa fa-close"></i> Deactivate </a>
-                                                        @endif
-                                                    @endcan
-
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                    <tfoot>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>User</th>
-                                        <th>Status</th>
-                                        <th class="text-right" width="70em" data-sort-ignore="true">Action</th>
-                                    </tr>
-                                    </tfoot>
-                                </table>
-                            </div>
-                        @endcan
-
+                    </div>
                     </div>
                 </div>
             </div>
@@ -230,6 +298,7 @@
                                     <div class="panel-options">
                                         <ul class="nav nav-tabs">
                                             <li class="active"><a href="#category-expenses" data-toggle="tab">Expenses</a></li>
+                                            <li class=""><a href="#category-expense-items" data-toggle="tab">Expense Items</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -237,60 +306,128 @@
                                 <div class="panel-body">
 
                                     <div class="tab-content">
-                                    <div class="tab-pane active" id="category-expenses">
-                                        @can('view category expenses')
-                                            <div class="table-responsive">
-                                                <table class="table table-striped table-bordered table-hover dataTables-expenses" >
-                                                    <thead>
-                                                    <tr>
-                                                        <th>Expense #</th>
-                                                        <th>Date</th>
-                                                        <th>Due Date</th>
-                                                        <th>Created</th>
-                                                        <th>Total</th>
-                                                        <th>Paid</th>
-                                                        <th>Status</th>
-                                                        <th class="text-right" width="13em" data-sort-ignore="true">Action</th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        @foreach($category->categoryExpenses as $expense)
-                                                            <tr class="gradeA">
-                                                                <td>{{$expense->reference}}</td>
-                                                                <td>{{$expense->date}}</td>
-                                                                <td>{{$expense->due_date}}</td>
-                                                                <td>{{$expense->created_at}}</td>
-                                                                <td>{{$expense->total}}</td>
-                                                                <td>{{$expense->paid}}</td>
-                                                                <td>
-                                                                    <p><span class="label {{$expense->status->label}}">{{$expense->status->name}}</span></p>
-                                                                </td>
-                                                                <td class="text-right">
-                                                                    <div class="btn-group">
-                                                                        @can('view category expenses')
-                                                                            <a href="{{ route('business.expense.show', ['portal'=>$institution->portal, 'id'=>$expense->id]) }}" class="btn-success btn-outline btn btn-xs">View</a>
-                                                                        @endcan
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                        @endforeach
-                                                    </tbody>
-                                                    <tfoot>
-                                                    <tr>
-                                                        <th>Expense #</th>
-                                                        <th>Date</th>
-                                                        <th>Due Date</th>
-                                                        <th>Created</th>
-                                                        <th>Total</th>
-                                                        <th>Paid</th>
-                                                        <th>Status</th>
-                                                        <th class="text-right" width="13em" data-sort-ignore="true">Action</th>
-                                                    </tr>
-                                                    </tfoot>
-                                                </table>
-                                            </div>
-                                        @endcan
-                                    </div>
+                                        <div class="tab-pane active" id="category-expenses">
+                                            @can('view category expenses')
+                                                <div class="table-responsive">
+                                                    <table class="table table-striped table-bordered table-hover dataTables-expenses" >
+                                                        <thead>
+                                                        <tr>
+                                                            <th>Expense #</th>
+                                                            <th>Sub Category</th>
+                                                            <th>Date</th>
+                                                            <th>Due Date</th>
+                                                            <th>Created</th>
+                                                            <th>Total</th>
+                                                            <th>Paid</th>
+                                                            <th>Status</th>
+                                                            <th class="text-right" width="13em" data-sort-ignore="true">Action</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach($category->categoryExpenses as $expense)
+                                                                <tr class="gradeA">
+                                                                    <td>{{$expense->reference}}</td>
+                                                                    <td>{{$expense->subCategory->name}}</td>
+                                                                    <td>{{$expense->date}}</td>
+                                                                    <td>{{$expense->due_date}}</td>
+                                                                    <td>{{$expense->created_at}}</td>
+                                                                    <td>{{$expense->total}}</td>
+                                                                    <td>{{$expense->paid}}</td>
+                                                                    <td>
+                                                                        <p><span class="label {{$expense->status->label}}">{{$expense->status->name}}</span></p>
+                                                                    </td>
+                                                                    <td class="text-right">
+                                                                        <div class="btn-group">
+                                                                            @can('view category expenses')
+                                                                                <a href="{{ route('business.category.expense.show', ['portal'=>$institution->portal, 'id'=>$expense->id]) }}" class="btn-success btn-outline btn btn-xs">View</a>
+                                                                            @endcan
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            @endforeach
+                                                        </tbody>
+                                                        <tfoot>
+                                                        <tr>
+                                                            <th>Expense #</th>
+                                                            <th>Sub Category</th>
+                                                            <th>Date</th>
+                                                            <th>Due Date</th>
+                                                            <th>Created</th>
+                                                            <th>Total</th>
+                                                            <th>Paid</th>
+                                                            <th>Status</th>
+                                                            <th class="text-right" width="13em" data-sort-ignore="true">Action</th>
+                                                        </tr>
+                                                        </tfoot>
+                                                    </table>
+                                                </div>
+                                            @endcan
+                                        </div>
+
+                                        <div class="tab-pane" id="category-expense-items">
+                                            @can('view category expenses')
+                                                <div class="table-responsive">
+                                                    <table class="table table-striped table-bordered table-hover dataTables-expenses" >
+                                                        <thead>
+                                                        <tr>
+                                                            <th>ref #</th>
+                                                            <th>Name</th>
+                                                            <th>Quantity</th>
+                                                            <th>Rate</th>
+                                                            <th>Amount</th>
+                                                            <th>Priority</th>
+                                                            <th>Status</th>
+                                                            <th>Date</th>
+                                                            <th>Due Date</th>
+                                                            <th class="text-right" width="13em" data-sort-ignore="true">Action</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach($categoryExpenseItems as $expenseItem)
+                                                                <tr class="gradeA">
+                                                                    <td>{{$expenseItem->categoryExpense->reference}}</td>
+                                                                    <td>{{$expenseItem->name}}</td>
+                                                                    <td>{{$expenseItem->quantity}}</td>
+                                                                    <td>{{$expenseItem->rate}}</td>
+                                                                    <td>{{$expenseItem->amount}}</td>
+                                                                    <td>
+                                                                        <p><span class="label {{$expenseItem->priority->label}}">{{$expenseItem->priority->name}}</span></p>
+                                                                    </td>
+                                                                    <td>
+                                                                        <p><span class="label {{$expenseItem->status->label}}">{{$expenseItem->status->name}}</span></p>
+                                                                    </td>
+                                                                    <td>{{$expenseItem->date}}</td>
+                                                                    <td>{{$expenseItem->due_date}}</td>
+
+
+                                                                    <td class="text-right">
+                                                                        <div class="btn-group">
+                                                                            @can('view category expenses')
+                                                                                <a href="{{ route('business.category.expense.show', ['portal'=>$institution->portal, 'id'=>$expenseItem->categoryExpense->id]) }}" class="btn-success btn-outline btn btn-xs">View</a>
+                                                                            @endcan
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            @endforeach
+                                                        </tbody>
+                                                        <tfoot>
+                                                        <tr>
+                                                            <th>ref #</th>
+                                                            <th>Name</th>
+                                                            <th>Quantity</th>
+                                                            <th>Rate</th>
+                                                            <th>Amount</th>
+                                                            <th>Priority</th>
+                                                            <th>Status</th>
+                                                            <th>Date</th>
+                                                            <th>Due Date</th>
+                                                            <th class="text-right" width="13em" data-sort-ignore="true">Action</th>
+                                                        </tr>
+                                                        </tfoot>
+                                                    </table>
+                                                </div>
+                                            @endcan
+                                        </div>
 
 
 
@@ -395,6 +532,7 @@
 @endsection
 
 @include('business.layouts.modals.to_do_create')
+@include('business.layouts.modals.sub_category_create')
 @include('business.layouts.modals.category_user_create')
 
 @section('js')

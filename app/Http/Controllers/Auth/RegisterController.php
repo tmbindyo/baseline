@@ -91,6 +91,7 @@ class RegisterController extends Controller
             'timezone' => $data['timezone'],
             'name' => $data['name'],
             'email' => $data['email'],
+            'email_verified_at' => now(),
             'password' => Hash::make($data['password']),
         ]);
     }

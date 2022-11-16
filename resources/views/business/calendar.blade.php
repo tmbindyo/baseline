@@ -15,6 +15,11 @@
             </li>
         </ol>
     </div>
+    <div class="col-lg-4">
+        <div class="title-action">
+            <a href="#" data-toggle="modal" data-target="#toDoRegistration" aria-expanded="false" class="btn btn-primary btn-outline"><i class="fa fa-plus"></i> New </a>
+        </div>
+    </div>
 </div>
 
 <div class="wrapper wrapper-content">
@@ -35,7 +40,8 @@
 </div>
 
 @endsection
-
+@include('business.layouts.modals.to_do_create')
+@include('business.layouts.modals.to_do_edit')
 @section('js')
 
 <!-- Mainly scripts -->
@@ -60,6 +66,69 @@
 
 <!-- Clock picker -->
 <script src="{{ asset('inspinia') }}/js/plugins/clockpicker/clockpicker.js"></script>
+
+
+<script>
+    $(document).ready(function() {
+        // Set date
+
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth();
+        var yyyy = today.getFullYear();
+        var h = today.getHours();
+        var m = today.getMinutes();
+        mm ++;
+        if (dd < 10){
+            dd = '0'+dd;
+        }
+        if (mm < 10){
+            mm = '0'+mm;
+        }
+        if (m < 10){
+            m = '0'+m;
+        }
+        var date_today = mm + '/' + dd + '/' + yyyy;
+        var time_curr = h + ':' + m;
+
+        document.getElementById("start_date").value = date_today;
+        document.getElementById("end_date").value = date_today;
+        document.getElementById("start_time").value = time_curr;
+        document.getElementById("end_time").value = time_curr;
+
+        // Set time
+    });
+
+</script>
+
+{{-- to do start time and end time --}}
+<script>
+    $(document).ready(function() {
+        $('.enableEndDate').on('click',function(){
+
+            if (document.getElementById('is_end_date').checked) {
+                // enable end_time input
+                document.getElementById("end_date").disabled = false;
+            } else {
+                // disable input
+                document.getElementById("end_date").disabled = true;
+            }
+
+        });
+
+        $('.enableEndTime').on('click',function(){
+            if (document.getElementById('is_end_time').checked) {
+                // enable end_time input
+                document.getElementById("end_time").disabled = false;
+            } else {
+                // disable input
+                document.getElementById("end_time").disabled = true;
+            }
+        });
+    });
+
+</script>
+
 
 
 

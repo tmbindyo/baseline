@@ -54,6 +54,7 @@
                                 <p>
                                     <span><strong>Expense Date:</strong> <a href="#" class="text-navy"> {{$expense->date}} </a> </span><br/>
                                     <span><strong>Category:</strong> <a href="#" class="text-navy"> {{$expense->category->name}} </a> </span><br/>
+                                    <span><strong>Sub Category:</strong> <a href="#" class="text-navy"> {{$expense->subCategory->name}} </a> </span><br/>
                                 </p>
                                 <h4>Expense Details:</h4>
 {{--                                <address>--}}
