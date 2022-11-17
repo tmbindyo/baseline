@@ -109,7 +109,7 @@
                                     <tr>
                                         <th>Name</th>
 
-                                        <th>Sub Total</th>
+
                                         <th>Adjustment</th>
                                         <th>Totals</th>
                                         <th>Paid</th>
