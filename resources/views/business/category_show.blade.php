@@ -83,18 +83,6 @@
                                         <i>name</i>
                                     </div>
                                     <br>
-                                    <div class="">
-                                        @if ($errors->has('description'))
-                                            <span class="invalid-feedback" style="display: block;" role="alert">
-                                            <strong>{{ $errors->first('description') }}</strong>
-                                        </span>
-                                        @endif
-                                        <div class="has-warning">
-                                            <textarea rows="5" name="description" class="form-control input-lg {{ $errors->has('description') ? ' is-invalid' : '' }}" >{{$category->description}}</textarea>
-                                        </div>
-                                        <i>description</i>
-                                    </div>
-                                    <br>
                                     @can('edit category')
                                         <hr>
                                         <div>
