@@ -53,7 +53,7 @@
 
             @can('view breakdown')
                 <li class="nav-item {{ Route::currentRouteNamed( 'business.breakdown',$institution->portal ) ?  'active' : '' }}">
-                    <a href="{{ route('business.breakdown',$institution->portal) }}"><i class="fa fa-list"></i> <span class="nav-label">Breakdown </span></a>
+                    <a href="{{ route('business.breakdown',$institution->portal) }}"><i class="fa fa-tags"></i> <span class="nav-label">Breakdown </span></a>
                 </li>
             @endcan
 
