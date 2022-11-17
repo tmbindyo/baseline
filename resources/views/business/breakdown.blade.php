@@ -63,25 +63,29 @@
                                             <td>{{$category->name}}</td>
 
                                             <td>
-                                                @if($category->categoryTotalAdjustment)
+                                                @if($category->categoryTotalAdjustment->count() > 0)
                                                     {{$category->categoryTotalAdjustment[0]->adjustments}}
                                                 @else
+                                                    0
                                                 @endif
                                             </td>
                                             <td>
-                                                @if($category->categoryTotalTotal)
+                                                @if($category->categoryTotalTotal->count() > 0)
                                                     {{$category->categoryTotalTotal[0]->totals}}</td>
                                                 @else
+                                                    0
                                                 @endif
                                             <td>
-                                                @if($category->categoryTotalPaid)
+                                                @if($category->categoryTotalPaid->count() > 0)
                                                     {{$category->categoryTotalPaid[0]->paid}}</td>
                                                 @else
+                                                    0
                                                 @endif
                                             <td>
-                                                @if($category->categoryTotalBalance)
+                                                @if($category->categoryTotalBalance->count() > 0)
                                                     {{$category->categoryTotalBalance[0]->balance}}</td>
                                                 @else
+                                                    0
                                                 @endif
 
                                             <td>{{$category->user->name}}</td>
