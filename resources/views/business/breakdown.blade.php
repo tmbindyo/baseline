@@ -62,10 +62,23 @@
                                         <tr class="gradeX">
                                             <td>{{$category->name}}</td>
 
-                                            <td>{{$category->categoryTotalAdjustment[0]->adjustments}}</td>
-                                            <td>{{$category->categoryTotalTotal[0]->totals}}</td>
-                                            <td>{{$category->categoryTotalPaid[0]->paid}}</td>
-                                            <td>{{$category->categoryTotalBalance[0]->balance}}</td>
+                                            <td>
+                                                @if($category->categoryTotalAdjustment){
+                                                    {{$category->categoryTotalAdjustment[0]->adjustments}}
+                                                }
+                                            </td>
+                                            <td>
+                                                @if($category->categoryTotalTotal){
+                                                    {{$category->categoryTotalTotal[0]->totals}}</td>
+                                                }
+                                            <td>
+                                                @if($category->categoryTotalPaid){
+                                                    {{$category->categoryTotalPaid[0]->paid}}</td>
+                                                }
+                                            <td>
+                                                @if($category->categoryTotalBalance){
+                                                    {{$category->categoryTotalBalance[0]->balance}}</td>
+                                                }
 
                                             <td>{{$category->user->name}}</td>
                                             <td>

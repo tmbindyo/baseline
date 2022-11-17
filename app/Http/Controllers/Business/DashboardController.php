@@ -39,7 +39,7 @@ class DashboardController extends Controller
 
         // category breakdown
         $categories = Category::with('user', 'status', 'institution', 'categoryTotalSubTotal', 'categoryTotalAdjustment', 'categoryTotalTotal', 'categoryTotalPaid', 'categoryTotalBalance')->get();
-        return $categories;
+        // return $categories;
 
         return view('business.breakdown', compact('user', 'institution', 'categories'));
     }
