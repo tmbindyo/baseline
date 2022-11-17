@@ -71,17 +71,11 @@ class CategoryController extends Controller
         $user = $this->getUser();
         // Get the navbar values
         $institution = $this->getInstitution($portal);
-        if ($request->description == '')
-        {
 
-            $description = $request->name;
-        }else{
-            $description = $request->description;
-        }
         // select account type
         $category = new Category();
         $category->name = $request->name;
-        $category->description = $description;
+        $category->description = " ";
         $category->is_institution = true;
         $category->user_id = $user->id;
         $category->institution_id = $institution->id;
@@ -146,18 +140,12 @@ class CategoryController extends Controller
         $user = $this->getUser();
         // Get the navbar values
         $institution = $this->getInstitution($portal);
-        if ($request->description == '')
-        {
-            $description = $request->name;
-        }else{
-            $description = $request->description;
-        }
         // select account type
         $categoryExists = Category::findOrFail($category_id);
         $category = Category::where('id', $category_id)->first();
 
         $category->name = $request->name;
-        $category->description = $description;
+        $category->description = " ";
         $category->save();
 
 

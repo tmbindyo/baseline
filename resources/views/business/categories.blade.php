@@ -46,7 +46,6 @@
                                 <thead>
                                     <tr>
                                         <th>Name</th>
-                                        <th>Description</th>
                                         <th>User</th>
                                         <th>Status</th>
                                         <th class="text-right" width="80em" data-sort-ignore="true">Action</th>
@@ -56,7 +55,6 @@
                                     @foreach($categories as $category)
                                         <tr class="gradeX">
                                             <td>{{$category->name}}</td>
-                                            <td>{{$category->description}}</td>
                                             <td>{{$category->user->name}}</td>
                                             <td>
                                                 <span class="label {{$category->status->label}}">{{$category->status->name}}</span>
@@ -77,7 +75,6 @@
                                 <tfoot>
                                     <tr>
                                         <th>Name</th>
-                                        <th>Description</th>
                                         <th>User</th>
                                         <th>Status</th>
                                         <th class="text-right" width="80em" data-sort-ignore="true">Action</th>

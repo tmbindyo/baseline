@@ -34,15 +34,6 @@
                                     <i>name</i>
                                 </div>
                                 <br>
-                                <div class="has-warning">
-                                    @if ($errors->has('description'))
-                                        <span class="invalid-feedback" style="display: block;" role="alert">
-                                                <strong>{{ $errors->first('description') }}</strong>
-                                            </span>
-                                    @endif
-                                    <textarea rows="5" name="description" class="form-control input-lg {{ $errors->has('description') ? ' is-invalid' : '' }}" placeholder="Notes" >{{ old('description') }}</textarea>
-                                    <i>description</i>
-                                </div>
 
                                 <hr>
 
