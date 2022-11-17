@@ -20,7 +20,7 @@
                         </div>
                     @endif
 
-                    <div class="row">
+                    {{-- <div class="row"> --}}
                         <div class="col-md-12">
                             <div class="form-group">
                                 <div class="has-warning">
@@ -29,7 +29,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    {{-- </div> --}}
 
                     <br>
                     <div class="row">
@@ -135,7 +135,7 @@
 
                     <br>
 
-                    <div class="row">
+                    {{-- <div class="row"> --}}
                         <div class="col-md-12">
                             <div class="form-group">
                                 <div class="has-warning">
@@ -143,7 +143,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    {{-- </div> --}}
 
                     <div class="ln_solid"></div>
 
