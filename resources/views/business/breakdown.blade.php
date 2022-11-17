@@ -63,22 +63,26 @@
                                             <td>{{$category->name}}</td>
 
                                             <td>
-                                                @if($category->categoryTotalAdjustment){
+                                                @if($category->categoryTotalAdjustment)
                                                     {{$category->categoryTotalAdjustment[0]->adjustments}}
-                                                }
+                                                @else
+                                                @endif
                                             </td>
                                             <td>
-                                                @if($category->categoryTotalTotal){
+                                                @if($category->categoryTotalTotal)
                                                     {{$category->categoryTotalTotal[0]->totals}}</td>
-                                                }
+                                                @else
+                                                @endif
                                             <td>
-                                                @if($category->categoryTotalPaid){
+                                                @if($category->categoryTotalPaid)
                                                     {{$category->categoryTotalPaid[0]->paid}}</td>
-                                                }
+                                                @else
+                                                @endif
                                             <td>
-                                                @if($category->categoryTotalBalance){
+                                                @if($category->categoryTotalBalance)
                                                     {{$category->categoryTotalBalance[0]->balance}}</td>
-                                                }
+                                                @else
+                                                @endif
 
                                             <td>{{$category->user->name}}</td>
                                             <td>
