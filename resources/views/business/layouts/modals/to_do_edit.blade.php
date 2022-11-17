@@ -135,15 +135,6 @@
 
                     <br>
 
-                    {{-- <div class="row"> --}}
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <div class="has-warning">
-                                    <textarea id="edit-notes" rows="5" name="edit-notes" class="resizable_textarea form-control input-lg" required="required" placeholder="Notes..."></textarea>
-                                </div>
-                            </div>
-                        </div>
-                    {{-- </div> --}}
 
                     <div class="ln_solid"></div>
 

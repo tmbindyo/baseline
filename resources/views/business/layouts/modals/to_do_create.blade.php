@@ -136,19 +136,6 @@
                         </div>
                     </div>
                     <br>
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <div class="has-warning">
-                                @if ($errors->has('notes'))
-                                    <span class="invalid-feedback" style="display: block;" role="alert">
-                                        <strong>{{ $errors->first('notes') }}</strong>
-                                    </span>
-                                @endif
-                                <textarea id="notes" rows="5" name="notes" class="resizable_textarea form-control input-lg {{ $errors->has('notes') ? ' is-invalid' : '' }}" required="required" placeholder="Notes..."></textarea>
-                            </div>
-                        </div>
-                    </div>
-                    <br>
 
 
                     @isset($category)

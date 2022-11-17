@@ -56,7 +56,7 @@ class ToDoController extends Controller
 
         $todo = new ToDo();
         $todo->name = $request->name;
-        $todo->notes = $request->notes;
+        $todo->notes = " ";
         $todo->is_completed = false;
 
         $todo->start_date = date('Y-m-d', strtotime($request->start_date));
@@ -295,7 +295,6 @@ class ToDoController extends Controller
 
         $todo = ToDo::findOrFail($to_do_id);
         $todo->name = $request->name;
-        $todo->notes = $request->notes;
         // TODO update todo database to from due to due_date
         $todo->due_date = date('Y-m-d', strtotime($request->due_date));
         $todo->user_id = $user->id;
