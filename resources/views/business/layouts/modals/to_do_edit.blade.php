@@ -21,7 +21,7 @@
                     @endif
 
                     <div class="row">
-                        <div class="col-md-7">
+                        <div class="col-md-12">
                             <div class="form-group">
                                 <div class="has-warning">
                                     <input type="text" id="edit-task" name="edittask" required="required" placeholder="Task" class="form-control input-lg">
@@ -29,22 +29,111 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="col-md-4 col-md-offset-1">
-                            <div class="form-group" id="data_1">
-                                <div class="has-warning">
-                                    <div class="input-group date">
-                                        <span class="input-group-addon">
-                                            <i class="fa fa-calendar"></i>
-                                        </span>
-                                        <input type="text" name="edit-due_date" id="edit-due_date" class="form-control input-lg" required>
-                                    </div>
-                                    <i> due date.</i>
-                                    <span id="inputSuccess2Status4" class="sr-only">(success)</span>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="has-warning" id="data_1">
+                                @if ($errors->has('edit-start_date'))
+                                    <span class="invalid-feedback" style="display: block;" role="alert">
+                                        <strong>{{ $errors->first('edit-start_date') }}</strong>
+                                    </span>
+                                @endif
+                                <div class="input-group date">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </span>
+                                    <input type="text" name="edit-start_date" id="edit-start_date" class="form-control input-lg {{ $errors->has('edit-start_date') ? ' is-invalid' : '' }}" required>
+                                </div>
+                                <i>start date.</i>
+                                <span id="inputSuccess2Status4" class="sr-only">(success)</span>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="has-warning" id="data_1">
+                                @if ($errors->has('edit-end_date'))
+                                    <span class="invalid-feedback" style="display: block;" role="alert">
+                                        <strong>{{ $errors->first('edit-end_date') }}</strong>
+                                    </span>
+                                @endif
+                                <div class="input-group date">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </span>
+                                    <input type="text" name="edit-end_date" id="edit-end_date" disabled="disabled" class="form-control input-lg {{ $errors->has('edit-end_date') ? ' is-invalid' : '' }}">
+                                </div>
+                                <i>end date.</i>
+                                <span id="inputSuccess2Status4" class="sr-only">(success)</span>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="has-warning">
+                                @if ($errors->has('edit-is_end_date'))
+                                    <span class="invalid-feedback" style="display: block;" role="alert">
+                                        <strong>{{ $errors->first('edit-is_end_date') }}</strong>
+                                    </span>
+                                @endif
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <input name="edit-is_end_date" id="edit-is_end_date" type="checkbox" class="enableEndDate {{ $errors->has('edit-is_end_date') ? ' is-invalid' : '' }}" />
+                                    <i>end date</i>
                                 </div>
                             </div>
                         </div>
                     </div>
+
+                    <br>
+
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="has-warning">
+                                @if ($errors->has('edit-start_time'))
+                                    <span class="invalid-feedback" style="display: block;" role="alert">
+                                        <strong>{{ $errors->first('edit-start_time') }}</strong>
+                                    </span>
+                                @endif
+                                <div class="input-group clockpicker" data-autoclose="true">
+                                    <span class="input-group-addon">
+                                    <span class="fa fa-clock-o"></span>
+                                    </span>
+                                    <input type="text" name="edit-start_time" data-mask="99:99" id="edit-start_time" class="form-control input-lg {{ $errors->has('edit-start_time') ? ' is-invalid' : '' }}" required>
+                                </div>
+                                <i>start time.</i>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="has-warning" id="data_1">
+                                @if ($errors->has('edit-end_time'))
+                                    <span class="invalid-feedback" style="display: block;" role="alert">
+                                        <strong>{{ $errors->first('edit-end_time') }}</strong>
+                                    </span>
+                                @endif
+                                <div class="input-group clockpicker" data-autoclose="true">
+                                    <span class="input-group-addon">
+                                    <span class="fa fa-clock-o"></span>
+                                    </span>
+                                    <input type="text" name="edit-end_time" disabled data-mask="99:99" id="edit-end_time" class="form-control input-lg {{ $errors->has('edit-end_time') ? ' is-invalid' : '' }}" value="09:30">
+                                </div>
+                                <i>end time.</i>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="has-warning">
+                                @if ($errors->has('edit-is_end_time'))
+                                    <span class="invalid-feedback" style="display: block;" role="alert">
+                                        <strong>{{ $errors->first('edit-is_end_time') }}</strong>
+                                    </span>
+                                @endif
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <input name="edit-is_end_time" id="edit-is_end_time" type="checkbox" class="enableEndTime {{ $errors->has('edit-is_end_time') ? ' is-invalid' : '' }}" />
+                                    <i>end time.</i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <br>
 
                     <div class="row">
                         <div class="col-md-12">

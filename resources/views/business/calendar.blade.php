@@ -185,67 +185,134 @@
                     $(this).remove();
                 }
             },
+
+            eventClick: function(info) {
+            console.log(info)
+            console.log(info.title)
+            var eventObj = info.event;
+            console.log(eventObj)
+            // alert('Clicked ' + info.title);
+
+            $("#toDoEdit").modal("show");
+            $("#toDoEdit .edit-task").text(info.event);
+
+            name = info.title
+            notes = info.notes
+            start_date = info.start_date
+            end_date = info.end_date
+            is_end_date = info.is_end_date
+            is_end_time = info.is_end_time
+            start_time = info.start_time
+            end_time = info.end_time
+
+            console.log("start_time")
+            console.log(start_time)
+
+            let text = start_date;
+            const myArray = text.split("-");
+
+            console.log(myArray)
+            console.log(myArray[1])
+
+            mm = myArray[1];
+            dd = myArray[2];
+            yyyy = myArray[0];
+
+            var date_today = mm + '/' + dd + '/' + yyyy;
+            console.log(date_today)
+
+
+            var today = new Date();
+            var h = today.getHours();
+            var m = today.getMinutes();
+            var time_curr = h + ':' + m;
+
+
+            document.getElementById("edit-task").value = name;
+            document.getElementById("edit-notes").value = notes;
+            document.getElementById("edit-start_date").value = date_today;
+
+            if (is_end_date == '1'){
+
+                document.getElementById('edit-is_end_date').checked = true;
+
+                const myArray = end_date.split("-");
+                edit_mm = myArray[1];
+                edit_dd = myArray[2];
+                edit_yyyy = myArray[0];
+
+                var end_date_today = edit_mm + '/' + edit_dd + '/' + edit_yyyy;
+                document.getElementById("edit-end_date").disabled = false;
+                document.getElementById("edit-end_date").value = end_date_today;
+
+            }
+
+
+            if (start_time){
+
+                document.getElementById('edit-is_end_time').checked = true;
+
+                const myArray = start_time.split(":");
+                edit_ss = myArray[0];
+                edit_mm = myArray[1];
+
+                var start_time_today = edit_ss + ':' + edit_mm;
+                document.getElementById("edit-start_time").value = start_time_today;
+            }else{
+                document.getElementById("edit-start_time").value = time_curr;
+            }
+
+
+            if (end_time){
+                const myArray = end_time.split(":");
+                edit_ss = myArray[0];
+                edit_mm = myArray[1];
+
+                var end_time_today = edit_ss + ':' + edit_mm;
+                document.getElementById("edit-end_time").value = end_time_today;
+            }else{
+                document.getElementById("edit-end_time").value = time_curr;
+            }
+
+
+
+
+
+            // <a href="#" data-toggle="modal" data-target="#toDoEdit" aria-expanded="false" class="btn btn-primary btn-outline"><i class="fa fa-plus"></i> New </a>
+
+
+            // alert('Clicked ');
+            // if (eventObj.url) {
+            //     alert(
+            //     'Clicked ' + eventObj.title + '.\n' +
+            //     'Will open ' + eventObj.title + ' in a new tab'
+            //     );
+
+            //     // window.open(eventObj.url);
+
+            //     info.jsEvent.preventDefault(); // prevents browser from following link in current tab.
+            // } else {
+            //     alert('Clicked ' + eventObj.title);
+            // }
+            },
+
+
             events: [
                 @foreach ($toDos as $toDo)
                 {
+
                     title: '{{$toDo->name}}',
+                    notes: '{{$toDo->notes}}',
+                    start_date: '{{$toDo->start_date}}',
+                    end_date: '{{$toDo->end_date}}',
+                    is_end_date: '{{$toDo->is_end_date}}',
+                    is_end_time: '{{$toDo->is_end_time}}',
+                    start_time: '{{$toDo->start_time}}',
+                    end_time: '{{$toDo->end_time}}',
+
                     start: new Date({{$toDo->start_year}}, {{$toDo->start_month-1}}, {{$toDo->start_day}}, {{$toDo->start_hour}}, {{$toDo->start_minute}}),
                     @if($toDo->is_end_date == 1)
                         end: new Date({{$toDo->end_year}}, {{$toDo->end_month-1}}, {{$toDo->end_day}} @if($toDo->is_end_time == 1), {{$toDo->end_hour}}, {{$toDo->end_minute}} @endif),
-                    @endif
-                    @if($toDo->is_product == 1)
-                        color: '#fe9000',
-                    @endif
-                    @if($toDo->is_product_group == 1)
-                        color: '#FFDD4A',
-                    @endif
-                    @if($toDo->is_warehouse == 1)
-                        color: '#463F3A',
-                    @endif
-                    @if($toDo->is_sale == 1)
-                        color: '#5adbff',
-                    @endif
-                    @if($toDo->is_contact == 1)
-                        color: '#E0AFA0',
-                    @endif
-                    @if($toDo->is_organization == 1)
-                        color: '#3777EE',
-                    @endif
-                    @if($toDo->is_campaign == 1)
-                        color: '#070707',
-                    @endif
-                    @if($toDo->is_account == 1)
-                        color: '#6f2dbd',
-                    @endif
-                    @if($toDo->is_account_adjustment == 1)
-                        color: '#DBD053',
-                    @endif
-                    @if($toDo->is_deposit == 1)
-                        color: '#30011E',
-                    @endif
-                    @if($toDo->is_liability == 1)
-                        color: '#E71D36',
-                    @endif
-                    @if($toDo->is_loan == 1)
-                        color: '#826aed',
-                    @endif
-                    @if($toDo->is_withdrawal == 1)
-                        color: '#a1F1a1',
-                    @endif
-                    @if($toDo->is_expense == 1)
-                        color: '#C7CB85',
-                    @endif
-                    @if($toDo->is_payment == 1)
-                        color: '#8F3985',
-                    @endif
-                    @if($toDo->is_refund == 1)
-                        color: '#7F96FF',
-                    @endif
-                    @if($toDo->is_transaction == 1)
-                        color: '#E9D2C0',
-                    @endif
-                    @if($toDo->is_transfer == 1)
-                        color: '#070707',
                     @endif
                 },
                 @endforeach
@@ -253,6 +320,34 @@
         });
 
 
+    });
+
+</script>
+
+{{-- to do start time and end time --}}
+<script>
+    $(document).ready(function() {
+        $('.enableEndDate').on('click',function(){
+
+            if (document.getElementById('edit-is_end_date').checked) {
+                // enable end_time input
+                document.getElementById("edit-end_date").disabled = false;
+            } else {
+                // disable input
+                document.getElementById("edit-end_date").disabled = true;
+            }
+
+        });
+
+        $('.enableEndTime').on('click',function(){
+            if (document.getElementById('edit-is_end_time').checked) {
+                // enable end_time input
+                document.getElementById("edit-end_time").disabled = false;
+            } else {
+                // disable input
+                document.getElementById("edit-end_time").disabled = true;
+            }
+        });
     });
 
 </script>
