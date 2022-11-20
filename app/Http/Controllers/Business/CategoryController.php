@@ -55,8 +55,10 @@ class CategoryController extends Controller
         // })->where('institution_id', $institution->id)->where('is_institution', true)->get();
         // return $categories;
 
+        $categoryIds = CategoryUser::where('category_user_id', $user->id)->pluck('category_id')->toArray();
+        // return $categoryIds;
+        $categories = Category::with('user', 'status', 'institution')->where('institution_id', $institution->id)->where('is_institution', true)->whereIn('id',$categoryIds)->get();
 
-        $categories = Category::with('user', 'status', 'institution')->where('institution_id', $institution->id)->where('is_institution', true)->get();
         $deletedCategories = Category::with('user', 'status', 'institution')->where('institution_id', $institution->id)->where('status_id', 'd35b4cee-5594-4cfd-ad85-e489c9dcdeff')->where('is_institution', true)->get();
         return view('business.categories', compact('user', 'institution', 'categories', 'deletedCategories'));
 
