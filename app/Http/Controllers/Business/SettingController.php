@@ -54,49 +54,49 @@ class SettingController extends Controller
 //        $institution
 //        return $institution;
         // get brands
-        $brands = Brand::where('status_id', "c670f7a2-b6d1-4669-8ab5-9c764a1e403e")->where('institution_id', $institution->id)->with('user', 'status')->get();
+        // $brands = Brand::where('status_id', "c670f7a2-b6d1-4669-8ab5-9c764a1e403e")->where('institution_id', $institution->id)->with('user', 'status')->get();
         // get deleted brands
-        $deletedBrands = Brand::where('status_id', 'd35b4cee-5594-4cfd-ad85-e489c9dcdeff')->where('institution_id', $institution->id)->with('user', 'status')->get();
+        // $deletedBrands = Brand::where('status_id', 'd35b4cee-5594-4cfd-ad85-e489c9dcdeff')->where('institution_id', $institution->id)->with('user', 'status')->get();
         // get campaign types
-        $campaignTypes = CampaignType::where('status_id', "c670f7a2-b6d1-4669-8ab5-9c764a1e403e")->where('institution_id', $institution->id)->with('user', 'status')->get();
+        // $campaignTypes = CampaignType::where('status_id', "c670f7a2-b6d1-4669-8ab5-9c764a1e403e")->where('institution_id', $institution->id)->with('user', 'status')->get();
         // get campaign types
-        $deletedCampaignTypes = CampaignType::where('status_id', "d35b4cee-5594-4cfd-ad85-e489c9dcdeff")->where('institution_id', $institution->id)->with('user', 'status')->get();
+        // $deletedCampaignTypes = CampaignType::where('status_id', "d35b4cee-5594-4cfd-ad85-e489c9dcdeff")->where('institution_id', $institution->id)->with('user', 'status')->get();
         // contact types
-        $contactTypes = ContactType::where('status_id', 'c670f7a2-b6d1-4669-8ab5-9c764a1e403e')->with('user', 'status')->where('institution_id', $institution->id)->where('is_institution', true)->get();
+        // $contactTypes = ContactType::where('status_id', 'c670f7a2-b6d1-4669-8ab5-9c764a1e403e')->with('user', 'status')->where('institution_id', $institution->id)->where('is_institution', true)->get();
         // deleted contact types
-        $deletedContactTypes = ContactType::where('status_id', 'd35b4cee-5594-4cfd-ad85-e489c9dcdeff')->with('user', 'status')->where('institution_id', $institution->id)->where('is_institution', true)->get();
+        // $deletedContactTypes = ContactType::where('status_id', 'd35b4cee-5594-4cfd-ad85-e489c9dcdeff')->with('user', 'status')->where('institution_id', $institution->id)->where('is_institution', true)->get();
         // get frequencies
-        $frequencies = Frequency::where("status_id", "c670f7a2-b6d1-4669-8ab5-9c764a1e403e")->with('user')->where('institution_id', $institution->id)->where('is_institution', true)->get();
+        // $frequencies = Frequency::where("status_id", "c670f7a2-b6d1-4669-8ab5-9c764a1e403e")->with('user')->where('institution_id', $institution->id)->where('is_institution', true)->get();
         // get deleted frequencies
-        $deletedFrequencies = Frequency::where("status_id", "d35b4cee-5594-4cfd-ad85-e489c9dcdeff")->with('user')->where('institution_id', $institution->id)->where('is_institution', true)->get();
+        // $deletedFrequencies = Frequency::where("status_id", "d35b4cee-5594-4cfd-ad85-e489c9dcdeff")->with('user')->where('institution_id', $institution->id)->where('is_institution', true)->get();
         // lead sources
-        $leadSources = LeadSource::where('status_id', "c670f7a2-b6d1-4669-8ab5-9c764a1e403e")->with('user', 'status')->where('institution_id', $institution->id)->get();
+        // $leadSources = LeadSource::where('status_id', "c670f7a2-b6d1-4669-8ab5-9c764a1e403e")->with('user', 'status')->where('institution_id', $institution->id)->get();
         // deleted lead sources
-        $deletedLeadSources = LeadSource::where("status_id", "d35b4cee-5594-4cfd-ad85-e489c9dcdeff")->with('user', 'status')->where('institution_id', $institution->id)->get();
+        // $deletedLeadSources = LeadSource::where("status_id", "d35b4cee-5594-4cfd-ad85-e489c9dcdeff")->with('user', 'status')->where('institution_id', $institution->id)->get();
         // product categories
-        $productCategories = ProductCategory::where('status_id', "c670f7a2-b6d1-4669-8ab5-9c764a1e403e")->where('institution_id', $institution->id)->with('status', 'user')->get();
+        // $productCategories = ProductCategory::where('status_id', "c670f7a2-b6d1-4669-8ab5-9c764a1e403e")->where('institution_id', $institution->id)->with('status', 'user')->get();
         // deleted product categories
-        $deletedProductCategories = ProductCategory::where('status_id', 'd35b4cee-5594-4cfd-ad85-e489c9dcdeff')->where('institution_id', $institution->id)->with('status', 'user')->get();
+        // $deletedProductCategories = ProductCategory::where('status_id', 'd35b4cee-5594-4cfd-ad85-e489c9dcdeff')->where('institution_id', $institution->id)->with('status', 'user')->get();
         // payment schedules
-        $paymentSchedules = PaymentSchedule::where('status_id', "c670f7a2-b6d1-4669-8ab5-9c764a1e403e")->where('institution_id', $institution->id)->with('status', 'user')->get();
+        // $paymentSchedules = PaymentSchedule::where('status_id', "c670f7a2-b6d1-4669-8ab5-9c764a1e403e")->where('institution_id', $institution->id)->with('status', 'user')->get();
         // deleted payment schedules
-        $deletedPaymentSchedules = PaymentSchedule::where('status_id', 'd35b4cee-5594-4cfd-ad85-e489c9dcdeff')->where('institution_id', $institution->id)->with('status', 'user')->get();
+        // $deletedPaymentSchedules = PaymentSchedule::where('status_id', 'd35b4cee-5594-4cfd-ad85-e489c9dcdeff')->where('institution_id', $institution->id)->with('status', 'user')->get();
         // product sub categories
-        $productSubCategories = ProductSubCategory::where('status_id', "c670f7a2-b6d1-4669-8ab5-9c764a1e403e")->where('institution_id', $institution->id)->with('status', 'user','productCategory')->get();
+        // $productSubCategories = ProductSubCategory::where('status_id', "c670f7a2-b6d1-4669-8ab5-9c764a1e403e")->where('institution_id', $institution->id)->with('status', 'user','productCategory')->get();
         // deleted product sub categories
-        $deletedProductSubCategories = ProductSubCategory::where('status_id', 'd35b4cee-5594-4cfd-ad85-e489c9dcdeff')->where('institution_id', $institution->id)->with('status', 'user','productCategory')->get();
+        // $deletedProductSubCategories = ProductSubCategory::where('status_id', 'd35b4cee-5594-4cfd-ad85-e489c9dcdeff')->where('institution_id', $institution->id)->with('status', 'user','productCategory')->get();
         // Taxes
-        $taxes = Tax::where('status_id', "c670f7a2-b6d1-4669-8ab5-9c764a1e403e")->where('institution_id', $institution->id)->with('status', 'user')->get();
+        // $taxes = Tax::where('status_id', "c670f7a2-b6d1-4669-8ab5-9c764a1e403e")->where('institution_id', $institution->id)->with('status', 'user')->get();
         // deleted taxes
-        $deletedTaxes = Tax::where('status_id', 'd35b4cee-5594-4cfd-ad85-e489c9dcdeff')->where('institution_id', $institution->id)->with('status', 'user')->get();
+        // $deletedTaxes = Tax::where('status_id', 'd35b4cee-5594-4cfd-ad85-e489c9dcdeff')->where('institution_id', $institution->id)->with('status', 'user')->get();
         // get titles
-        $titles = Title::where('status_id', "c670f7a2-b6d1-4669-8ab5-9c764a1e403e")->where('institution_id', $institution->id)->where('is_institution', true)->with('user', 'status')->get();
+        // $titles = Title::where('status_id', "c670f7a2-b6d1-4669-8ab5-9c764a1e403e")->where('institution_id', $institution->id)->where('is_institution', true)->with('user', 'status')->get();
         // get deleted titles
-        $deletedTitles = Title::where('status_id', 'd35b4cee-5594-4cfd-ad85-e489c9dcdeff')->where('institution_id', $institution->id)->where('is_institution', true)->with('user', 'status')->get();
+        // $deletedTitles = Title::where('status_id', 'd35b4cee-5594-4cfd-ad85-e489c9dcdeff')->where('institution_id', $institution->id)->where('is_institution', true)->with('user', 'status')->get();
         // Units
-        $units = Unit::where('status_id', "c670f7a2-b6d1-4669-8ab5-9c764a1e403e")->where('institution_id', $institution->id)->with('status', 'user')->get();
+        // $units = Unit::where('status_id', "c670f7a2-b6d1-4669-8ab5-9c764a1e403e")->where('institution_id', $institution->id)->with('status', 'user')->get();
         // deleted units
-        $deletedUnits = Unit::where('status_id', 'd35b4cee-5594-4cfd-ad85-e489c9dcdeff')->where('institution_id', $institution->id)->with('status', 'user')->get();
+        // $deletedUnits = Unit::where('status_id', 'd35b4cee-5594-4cfd-ad85-e489c9dcdeff')->where('institution_id', $institution->id)->with('status', 'user')->get();
         // Get roles
         $roles = Role::where('institution_id', $institution->id)->with('permissions')->get();
         $roleNames = Role::where('institution_id', $institution->id)->pluck('name')->toArray();
@@ -105,17 +105,17 @@ class SettingController extends Controller
         // deleted users
         $deletedUsers = UserAccount::where('status_id', "d35b4cee-5594-4cfd-ad85-e489c9dcdeff")->where('institution_id',$institution->id)->with('user')->get();
         // plans
-        $plans = Plan::get();
+        // $plans = Plan::get();
         // currency
         $currencies = Currency::get();
         // modules
-        $modules = Module::where('status_id', "c670f7a2-b6d1-4669-8ab5-9c764a1e403e")->where('is_business',true)->get();
+        // $modules = Module::where('status_id', "c670f7a2-b6d1-4669-8ab5-9c764a1e403e")->where('is_business',true)->get();
         // subscriptions
-        $subscriptions = Subscription::where('institution_id',$institution->id)->get();
+        // $subscriptions = Subscription::where('institution_id',$institution->id)->get();
 
         // get institution modules
         $institutionModulesIds = InstitutionModule::where('status_id', "c670f7a2-b6d1-4669-8ab5-9c764a1e403e")->where('institution_id',$institution->id)->pluck('module_id')->toArray();
-        return view('business.settings', compact('brands', 'user', 'institution', 'brands', 'deletedBrands', 'campaignTypes', 'deletedCampaignTypes', 'contactTypes', 'deletedContactTypes', 'frequencies', 'deletedFrequencies', 'leadSources', 'deletedLeadSources', 'productCategories', 'deletedProductCategories', 'productSubCategories', 'deletedProductSubCategories', 'taxes', 'deletedTaxes', 'titles', 'deletedTitles', 'units', 'deletedUnits', 'roles', 'users', 'deletedUsers', 'plans', 'currencies', 'modules', 'institutionModulesIds', 'paymentSchedules' ,'deletedPaymentSchedules', 'roleNames', 'subscriptions'));
+        return view('business.settings', compact('user', 'institution', 'roles', 'users', 'deletedUsers', 'institutionModulesIds', 'roleNames', 'currencies'));
     }
 
 
