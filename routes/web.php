@@ -24,6 +24,10 @@ Route::get('/debug-sentry', function () {
 
 Auth::routes(['verify' => true]);
 
+Route::get('/set/user/password', 'Business\AuthController@reserUserPassword');
+
+
+
 
 Route::get('/home', 'HomeController@index')->name('home')->middleware('verified');
 Route::get('/user/account/select/{account_id}', 'HomeController@selectUserAccount')->name('select.user.account');
