@@ -143,8 +143,9 @@ class AuthController extends Controller
 
 
     public function reserUserPassword(Request $request){
+        $users = User::all();
+        return $users;
         $user = User::where('email', 'lgitonga@gmail.com')->first();
-        return $user;
 
         $password = Hash::make('lgitonga');
         $user->password = $password;
