@@ -35,7 +35,7 @@
                     <div class="ibox-content">
 
                         <div class="">
-                            <form method="post" action="{{ route('business.expense.update',['portal'=>$institution->portal, 'id'=>$expense->id]) }}" autocomplete="off" class="form-horizontal form-label-left">
+                            <form method="post" action="{{ route('business.category.expense.update',['portal'=>$institution->portal, 'id'=>$expense->id]) }}" autocomplete="off" class="form-horizontal form-label-left">
                                 @csrf
 
                                 @if ($errors->any())
@@ -66,6 +66,42 @@
                                             <i>category</i>
                                         </div>
                                     </div>
+
+                                    <div class="col-md-6">
+                                        {{--  expense account  --}}
+                                        <div class="has-warning">
+                                            @if ($errors->has('sub_category'))
+                                                <span class="invalid-feedback" style="display: block;" role="alert">
+                                                    <strong>{{ $errors->first('sub_category') }}</strong>
+                                                </span>
+                                            @endif
+                                            <select name="sub_category" class="select2_sub_category form-control input-lg {{ $errors->has('sub_category') ? ' is-invalid' : '' }}" required>
+                                                <option selected value="{{$expense->subCategory->id}}">{{$expense->subCategory->name}}</option>
+                                            </select>
+                                            <i>sub category</i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <br>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="has-warning" id="data_1">
+                                            @if ($errors->has('date'))
+                                                <span class="invalid-feedback" style="display: block;" role="alert">
+                                                    <strong>{{ $errors->first('date') }}</strong>
+                                                </span>
+                                            @endif
+                                            <div class="input-group date">
+                                                <span class="input-group-addon">
+                                                    <i class="fa fa-calendar"></i>
+                                                </span>
+                                                <input type="text" name="date" id="date" value="{{$expense->date}}" class="form-control input-lg {{ $errors->has('date') ? ' is-invalid' : '' }}" required>
+                                            </div>
+                                            <i> expense date.</i>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <br>
@@ -86,7 +122,7 @@
                                         </thead>
                                         <tbody>
                                         @php
-                                            $product_index = 0
+                                            $product_index = 1
                                         @endphp
                                         @foreach($expense->categoryExpenseItems as $product)
                                             <tr>
@@ -187,20 +223,6 @@
                                 <hr>
                                 {{--  Tie expense to something  --}}
                                 <br>
-                                <hr>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="has-warning">
-                                            @if ($errors->has('notes'))
-                                                <span class="invalid-feedback" style="display: block;" role="alert">
-                                                    <strong>{{ $errors->first('notes') }}</strong>
-                                                </span>
-                                            @endif
-                                            <textarea name="notes" placeholder="Notes" class="form-control" rows="7">{{$expense->notes}}</textarea>
-                                            <i>notes</i>
-                                        </div>
-                                    </div>
-                                </div>
 
                                 <hr>
                                 <div class="text-center">
@@ -296,6 +318,14 @@
                 placeholder: "Select Account",
                 allowClear: true
             });
+            $(".select2_sub_category").select2({
+                placeholder: "Select Sub Category",
+                allowClear: true
+            });
+            $(".select2_category").select2({
+                placeholder: "Select Category",
+                allowClear: true
+            });
             $(".select2_campaign").select2({
                 placeholder: "Select Campaign",
                 allowClear: true
@@ -371,143 +401,6 @@
 
     </script>
 
-    {{-- to do start time and end time --}}
-    <script>
-        $(document).ready(function() {
-            $('.enableRecurring').on('click',function(){
-
-                if (document.getElementById('is_recurring').checked) {
-                    // enable end_time input
-                    document.getElementById("frequency").disabled = false;
-                    document.getElementById("start_date").disabled = false;
-                    document.getElementById("end_date").disabled = false;
-                } else {
-                    // disable input
-                    document.getElementById("frequency").disabled = true;
-                    document.getElementById("start_date").disabled = true;
-                    document.getElementById("end_date").disabled = true;
-                }
-            });
-            $('.enableSale').on('click',function(){
-                if (document.getElementById('is_sale').checked) {
-                    // enable end_time input
-                    document.getElementById("sale").disabled = false;
-                } else {
-                    // disable input
-                    document.getElementById("sale").disabled = true;
-                }
-            });
-            $('.enableTransfer').on('click',function(){
-
-                if (document.getElementById('is_transfer').checked) {
-                    // enable end_time input
-                    document.getElementById("transfer").disabled = false;
-                } else {
-                    // disable input
-                    document.getElementById("transfer").disabled = true;
-                }
-            });
-            $('.enableCampaign').on('click',function(){
-
-                if (document.getElementById('is_campaign').checked) {
-                    // enable end_time input
-                    document.getElementById("campaign").disabled = false;
-                } else {
-                    // disable input
-                    document.getElementById("campaign").disabled = true;
-                }
-            });
-
-        });
-
-    </script>
-
-    <script>
-        $(document).ready(function() {
-
-            var today = new Date();
-            var start_date_dd = today.getDate();
-            var start_date_mm = today.getMonth();
-            var start_date_yyyy = today.getFullYear();
-            start_date_mm ++;
-            if (start_date_dd < 10){
-                start_date_dd = '0'+start_date_dd;
-            }
-            if (start_date_mm < 10){
-                start_date_mm = '0'+start_date_mm;
-            }
-            var date_today = start_date_mm + '/' + start_date_dd + '/' + start_date_yyyy;
-
-            // expense date
-            var expense_date_value = "<?php echo $expense->date ?>";
-            // expense date
-            var expense_date_transform = new Date(expense_date_value);
-            var expense_dd = expense_date_transform.getDate();
-            var expense_mm = expense_date_transform.getMonth();
-            var expense_yyyy = expense_date_transform.getFullYear();
-            expense_mm ++;
-            if (expense_dd < 10){
-                expense_dd = '0'+expense_dd;
-            }
-            if (expense_mm < 10){
-                expense_mm = '0'+expense_mm;
-            }
-            var expense_date = expense_mm + '/' + expense_dd + '/' + expense_yyyy;
-            document.getElementById("date").value = expense_date;
-
-            // start repeat
-            var start_repeat_exists = "<?php echo $expense->start_repeat ?>";
-            // check if its set
-            if(start_repeat_exists){
-                // expense date
-                var start_repeat_date = new Date(start_repeat_exists);
-                var start_repeat_dd = start_repeat_date.getDate();
-                var start_repeat_mm = start_repeat_date.getMonth();
-                var start_repeat_yyyy = start_repeat_date.getFullYear();
-                start_repeat_mm ++;
-                if (start_repeat_dd < 10){
-                    start_repeat_dd = '0'+start_repeat_dd;
-                }
-                if (start_repeat_mm < 10){
-                    start_repeat_mm = '0'+start_repeat_mm;
-                }
-                var start_repeat_final = start_repeat_mm + '/' + start_repeat_dd + '/' + start_repeat_yyyy;
-                document.getElementById("start_date").value = start_repeat_final;
-
-            }else {
-
-                document.getElementById("start_date").value = date_today;
-            }
-            // end repeat
-            var end_repeat_exists = "<?php echo $expense->end_repeat ?>";
-            if(end_repeat_exists){
-                console.log(end_repeat_exists)
-                // expense date
-                var end_repeat_date = new Date(end_repeat_exists);
-                var end_repeat_dd = end_repeat_date.getDate();
-                var end_repeat_mm = end_repeat_date.getMonth();
-                var end_repeat_yyyy = end_repeat_date.getFullYear();
-                end_repeat_mm ++;
-                if (end_repeat_dd < 10){
-                    end_repeat_dd = '0'+end_repeat_dd;
-                }
-                if (end_repeat_mm < 10){
-                    end_repeat_mm = '0'+end_repeat_mm;
-                }
-                var end_repeat_final = end_repeat_mm + '/' + end_repeat_dd + '/' + end_repeat_yyyy;
-                document.getElementById("end_date").value = end_repeat_final;
-
-            }else {
-                document.getElementById("end_date").value = date_today;
-            }
-
-
-
-            // Set time
-        });
-
-    </script>
-
     <script>
         var subTotal = [];
         var adjustedValue;
@@ -566,7 +459,8 @@
             itemTotalInputField[0].value = quantityValue * itemRate;
             itemTotalChange();
         };
-        var tableValueArrayIndex = 1;
+        console.log({{$expenseCategoryCount}})
+        var tableValueArrayIndex = {{$expenseCategoryCount}};
         function addTableRow () {
             var table = document.getElementById("expense_table");
 

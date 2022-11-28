@@ -339,6 +339,10 @@
             placeholder: "Select Sub Category",
             allowClear: true
         });
+        $(".select2_category").select2({
+            placeholder: "Select Category",
+            allowClear: true
+        });
         $(".select2_frequency").select2({
             placeholder: "Select Frequency",
             allowClear: true

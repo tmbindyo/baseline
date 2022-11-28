@@ -1,4 +1,4 @@
-<div class="modal inmodal" id="toDoEdit" tabindex="-1" role="dialog" aria-labelledby="toDoEditLabel" aria-hidden="true">
+<div class="modal inmodal" id="toDoEdit" tabindex="-1" id="editToDo" role="dialog" aria-labelledby="toDoEditLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content animated bounceInRight">
             <div class="modal-header">
@@ -7,7 +7,7 @@
                 <h4 class="modal-title">Edit To-Do</h4>
             </div>
             <div class="modal-body">
-                <form method="post" action="{{ route('business.to.do.store',$institution->portal) }}" autocomplete="off" class="form-horizontal form-label-left">
+                <form autocomplete="off" class="form-horizontal form-label-left" id="editToDoForm" name="editToDoForm">
                     @csrf
 
                     @if ($errors->any())
@@ -21,6 +21,18 @@
                     @endif
 
                     {{-- <div class="row"> --}}
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="has-warning">
+                                    <input id="edit-id" type="hidden" name="editid" required="required" placeholder="Task" class="form-control input-lg">
+                                    {{-- <i>task</i> --}}
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
                         <div class="col-md-12">
                             <div class="form-group">
                                 <div class="has-warning">
@@ -139,7 +151,7 @@
                     <div class="ln_solid"></div>
 
                     <div class="text-center">
-                        <button type="submit" class="btn btn-block btn-outline btn-lg btn-success mt-4">{{ __('Save') }}</button>
+                        <button type="submit" class="btn btn-block btn-outline btn-lg btn-success mt-4">Save</button>
                     </div>
 
                 </form>

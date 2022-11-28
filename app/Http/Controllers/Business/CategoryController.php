@@ -7,6 +7,7 @@ use App\Traits\UserTrait;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\ToDo;
+use DB;
 use App\Sale;
 use App\Status;
 use App\Transfer;
@@ -297,8 +298,10 @@ class CategoryController extends Controller
         $priorities = Priority::all();
         // get expense
         $expense = CategoryExpense::where('institution_id', $institution->id)->where('is_institution', true)->where('id', $category_expense_id)->with('status', 'categoryExpenseItems', 'category', 'user')->withCount('categoryExpenseItems')->first();
-
-        return view('business.category_expense_edit', compact('expense', 'user', 'institution', 'priorities'));
+        $expenseCategoryCount = CategoryExpenseItem::where('category_expense_id', $expense->id)->count();
+        $expenseCategoryCount = $expenseCategoryCount+=1;
+        // return $expenseCategoryCount;
+        return view('business.category_expense_edit', compact('expense', 'user', 'institution', 'priorities', 'expenseCategoryCount'));
     }
 
     public function categoryExpenseUpdate(Request $request, $portal, $category_expense_id)
@@ -312,87 +315,20 @@ class CategoryController extends Controller
         $reference = $this->getRandomString($size);
         $expenseExists = CategoryExpense::findOrFail($category_expense_id);
         $expense = CategoryExpense::where('id', $category_expense_id)->first();
-        if ($request->is_sale == "on")
-        {
-            $expense->is_sale = true;
-            $expense->sale_id = $request->sale;
-        }else{
-            $expense->is_sale = false;
-        }
-        if ($request->is_inventory_adjustment == "on")
-        {
-            $expense->is_inventory_adjustment = true;
-            $expense->inventory_adjustment_id = $request->inventory_adjustment;
-        }else{
-            $expense->is_inventory_adjustment = false;
-        }
-        if ($request->is_transfer_order == "on")
-        {
-            $expense->is_transfer_order = true;
-            $expense->transfer_order_id = $request->transfer_order;
-        }else{
-            $expense->is_transfer_order = false;
-        }
-        if ($request->is_warehouse == "on")
-        {
-            $expense->is_warehouse = true;
-            $expense->warehouse_id = $request->warehouse;
-        }else{
-            $expense->is_warehouse = false;
-        }
-        if ($request->is_campaign == "on")
-        {
-            $expense->is_campaign = true;
-            $expense->campaign_id = $request->campaign;
-        }else{
-            $expense->is_campaign = false;
-        }
-        if ($request->is_sale == "on")
-        {
-            $expense->is_sale = true;
-            $expense->sale_id = $request->sale;
-        }else{
-            $expense->is_sale = false;
-        }
-        if ($request->is_transfer == "on")
-        {
-            $expense->is_transfer = true;
-            $expense->transfer_id = $request->transfer;
-        }else{
-            $expense->is_transfer = false;
-        }
-        if ($request->is_transaction == "on")
-        {
-            $expense->is_transaction = true;
-            $expense->transaction_id = $request->transaction;
-        }else{
-            $expense->is_transaction = false;
-        }
 
-        if ($request->is_recurring == "on")
-        {
-            $expense->is_recurring = true;
-            $expense->frequency_id = $request->frequency;
-            $expense->start_repeat = date('Y-m-d', strtotime($request->start_date));
-            $expense->end_repeat = date('Y-m-d', strtotime($request->end_date));
-        }else
-        {
-            $expense->is_recurring = false;
-        }
 
         $expense->sub_total = $request->subtotal;
         $expense->adjustment = $request->adjustment;
         $expense->total = $request->grand_total;
 
-        $expense->notes = $request->notes;
 
         $expense->user_id = $user->id;
-        $expense->status_id = $request->status;
 
         $expense->save();
 
         $expenseProducts =array();
         // item details
+        // return $request->item_details;
         foreach ($request->item_details as $item)
         {
             // check if exists
@@ -409,10 +345,10 @@ class CategoryController extends Controller
                 $expenseItem->due_date = date('Y-m-d', strtotime($item['due_date']));
 
                 $expenseItem->priority_id = $item['priority'];
-                $expenseItem->status_id = $item['status'];
+                // $expenseItem->status_id = $item['status'];
 
                 $expenseItem->user_id = $user->id;
-                $expenseItem->expense_id = $expense->id;
+                $expenseItem->category_expense_id = $expense->id;
                 $expenseItem->save();
             }
             else
@@ -428,22 +364,26 @@ class CategoryController extends Controller
                 $expenseItem->due_date = date('Y-m-d', strtotime($item['due_date']));
 
                 $expenseItem->priority_id = $item['priority'];
-                $expenseItem->status_id = $item['status'];
+                $expenseItem->status_id = "7feeea3a-d716-4be2-93e1-88c5082457c6";
 
                 $expenseItem->user_id = $user->id;
-                $expenseItem->expense_id = $expense->id;
+                $expenseItem->category_expense_id = $expense->id;
                 $expenseItem->save();
                 $expenseProducts[]['id'] = $expenseItem->id;
             }
 
         }
+
+
+        // update paid
+
         // Get the deleted expense items
         $expenseItemIds = CategoryExpenseItem::where('category_expense_id', $expense->id)->whereNotIn('id', $expenseProducts)->select('id')->get()->toArray();
 
         // Delete removed expense items
-        DB::table('cateegory_expense_items')->whereIn('id', $expenseItemIds)->delete();
+        DB::table('category_expense_items')->whereIn('id', $expenseItemIds)->delete();
 
-        return redirect()->route('business.expense.show',['portal'=>$institution->portal, 'id'=>$expense->id])->withSuccess('Expense '.$expense->reference.' successfully updated!');
+        return redirect()->route('business.category.expense.show',['portal'=>$institution->portal, 'id'=>$expense->id])->withSuccess('Expense '.$expense->reference.' successfully updated!');
     }
 
     public function categoryExpenseDelete($portal)

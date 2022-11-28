@@ -8,6 +8,7 @@ use App\Traits\InstitutionTrait;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Auth;
+use Log;
 
 class ToDoController extends Controller
 {
@@ -66,6 +67,7 @@ class ToDoController extends Controller
         $todo->start_time = date('H:i:s', strtotime($request->start_time));
         $todo->start_hour = date('H', strtotime($request->start_time));
         $todo->start_minute = date('i', strtotime($request->start_time));
+
         // if has end date
         if($request->is_end_date == "on"){
             $todo->is_end_date = true;
@@ -285,8 +287,62 @@ class ToDoController extends Controller
     }
 
     // Update to do
-    public function toDoUpdate(Request $request, $portal, $to_do_id)
+    public function toDoUpdate(Request $request)
     {
+        $id = $request->id;
+        $todo = ToDo::findOrFail($id);
+
+        $old_todo = $todo->name;
+        $new_todo = $request->task;
+
+        $todo->name = $request->task;
+
+
+        $todo->start_date = date('Y-m-d', strtotime($request->start_date));
+        $todo->start_year = date('Y', strtotime($request->start_date));
+        $todo->start_month = date('m', strtotime($request->start_date));
+        $todo->start_day = date('d', strtotime($request->start_date));
+        $todo->start_time = date('H:i:s', strtotime($request->start_time));
+        $todo->start_hour = date('H', strtotime($request->start_time));
+        $todo->start_minute = date('i', strtotime($request->start_time));
+
+
+        if($request->is_end_date == "on"){
+            $todo->is_end_date = true;
+            $todo->end_date = date('Y-m-d', strtotime($request->end_date));
+            $todo->end_year = date('Y', strtotime($request->end_date));
+            $todo->end_month = date('m', strtotime($request->end_date));
+            $todo->end_day = date('d', strtotime($request->end_date));
+        }else{
+            $todo->is_end_date = false;
+        }
+        // if has end time
+        if($request->is_end_time == "on"){
+            $todo->is_end_time = true;
+            $todo->end_time = date('H:i:s', strtotime($request->end_time));
+            $todo->end_hour = date('H', strtotime($request->end_time));
+            $todo->end_minute = date('i', strtotime($request->end_time));
+        }else{
+            $todo->is_end_time = false;
+        }
+
+
+        $todo->save();
+        $message = 'To do '.$old_todo.' updated!';
+
+        return $message;
+
+
+
+        return $todo;
+
+
+        $input = $request;
+        Log::info($input);
+        return $input;
+        return "input";
+
+        return back()->withSuccess('To do '.$input.' updated!');
 
         // User
         $user = $this->getUser();

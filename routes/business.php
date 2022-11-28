@@ -9,6 +9,13 @@ Route::get('/{portal}/dashboard', 'Business\DashboardController@dashboard')->nam
 Route::get('/{portal}/breakdown', 'Business\DashboardController@breakdown')->name('business.breakdown');
 
 
+Route::post('/to/do/update/less', 'Business\ToDoController@toDoUpdate')->name('business.to.do.update.less');
+
+
+
+
+
+
 
 //Calendar
 Route::get('/{portal}/calendar', 'Business\CalendarController@calendar')->name('business.calendar');

@@ -130,6 +130,93 @@
 </script>
 
 
+<script>
+    $('#editToDoForm').submit(function(event){
+    // cancels the form submission
+    event.preventDefault();
+    if($('#editToDoForm')[0].checkValidity() ){
+    $('#editToDo').modal('toggle');
+    }
+
+    console.log("submit")
+
+    id = document.getElementById('edit-id').value
+    task = document.getElementById('edit-task').value
+    start_date = document.getElementById('edit-start_date').value
+    end_date = document.getElementById('edit-end_date').value
+    is_end_date = document.getElementById('edit-is_end_date').value
+    start_time = document.getElementById('edit-start_time').value
+    end_time = document.getElementById('edit-end_time').value
+    is_end_time = document.getElementById('edit-is_end_time').value
+
+
+    console.log(id)
+    console.log(task)
+    console.log(start_date)
+    console.log(end_date)
+    console.log(is_end_date)
+
+
+
+
+
+
+
+
+
+    let route = "{{ route('business.to.do.update.less') }}";
+    let token = "{{ csrf_token()}}";
+    $.ajax({
+        url: route,
+        type: 'POST',
+        data: {
+            _token:token,
+            id:id,
+            task:task,
+            start_date:start_date,
+            end_date:end_date,
+            is_end_date:is_end_date,
+            start_time:start_time,
+            end_time:end_time,
+            is_end_time:is_end_time,
+        },
+        success: function(response) {
+            console.log(response)
+            alert(response);
+            location.reload();
+        },
+        error: function(xhr) {
+            //Do Something to handle error
+        }});
+    // }
+
+
+
+
+    // $.ajaxSetup({
+    //     headers: {
+    //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    //     }
+    // });
+
+    // $(".btn-submit").click(function(e){
+
+    //     e.preventDefault();
+
+    //     $.ajax({
+    //        type:'POST',
+    //        url:"{{ route('business.to.do.update.less') }}",
+    //        data:{task:task, start_date:start_date, end_date:end_date, start_time:start_time, end_time:end_time, is_end_time:is_end_time},
+    //        success:function(data){
+    //           alert(data.success);
+    //        }
+    //     });
+
+    // });
+
+
+    });
+    </script>
 
 
 {{--  Calendar  --}}
@@ -196,6 +283,7 @@
             $("#toDoEdit").modal("show");
             $("#toDoEdit .edit-task").text(info.event);
 
+            id = info.id
             name = info.title
             notes = info.notes
             start_date = info.start_date
@@ -228,8 +316,9 @@
             var time_curr = h + ':' + m;
 
 
+            document.getElementById("edit-id").value = id;
             document.getElementById("edit-task").value = name;
-            document.getElementById("edit-notes").value = notes;
+            // document.getElementById("edit-notes").value = notes;
             document.getElementById("edit-start_date").value = date_today;
 
             if (is_end_date == '1'){
@@ -245,6 +334,27 @@
                 document.getElementById("edit-end_date").disabled = false;
                 document.getElementById("edit-end_date").value = end_date_today;
 
+            }else{
+
+                var today = new Date();
+                var dd = today.getDate();
+                var mm = today.getMonth();
+                var yyyy = today.getFullYear();
+                var h = today.getHours();
+                var m = today.getMinutes();
+                mm ++;
+                if (dd < 10){
+                    dd = '0'+dd;
+                }
+                if (mm < 10){
+                    mm = '0'+mm;
+                }
+                if (m < 10){
+                    m = '0'+m;
+                }
+                var date_today = mm + '/' + dd + '/' + yyyy;
+                var time_curr = h + ':' + m;
+                document.getElementById("edit-end_date").value = date_today;
             }
 
 
@@ -258,9 +368,18 @@
 
                 var start_time_today = edit_ss + ':' + edit_mm;
                 document.getElementById("edit-start_time").value = start_time_today;
+                document.getElementById("edit-end_time").disabled = false;
             }else{
+
+                document.getElementById('edit-is_end_time').checked = false;
                 document.getElementById("edit-start_time").value = time_curr;
+                document.getElementById("edit-end_time").value = time_curr;
+
+                document.getElementById("edit-start_time").disabled = true;
+                document.getElementById("edit-end_time").disabled = true;
             }
+
+
 
 
             if (end_time){
@@ -274,8 +393,28 @@
                 document.getElementById("edit-end_time").value = time_curr;
             }
 
+            console.log("is_end_time")
+            console.log(is_end_time)
+            if (is_end_time == '1'){
+                document.getElementById('edit-is_end_time').checked = true;
 
+                console.log("end_time")
+                console.log(end_time)
 
+                const myArray = end_time.split(":");
+                edit_min = myArray[1];
+                edit_hour = myArray[0];
+
+                var end_time_today = edit_hour + ':' + edit_min;
+                console.log("end_time_today");
+                console.log(end_time_today);
+                document.getElementById("edit-end_time").disabled = false;
+                document.getElementById("edit-end_time").value = end_time_today;
+
+            }else{
+                document.getElementById("edit-end_time").disabled = true;
+                document.getElementById('edit-is_end_time').checked = false;
+            }
 
 
             // <a href="#" data-toggle="modal" data-target="#toDoEdit" aria-expanded="false" class="btn btn-primary btn-outline"><i class="fa fa-plus"></i> New </a>
@@ -301,6 +440,7 @@
                 @foreach ($toDos as $toDo)
                 {
 
+                    id: '{{$toDo->id}}',
                     title: '{{$toDo->name}}',
                     notes: '{{$toDo->notes}}',
                     start_date: '{{$toDo->start_date}}',
